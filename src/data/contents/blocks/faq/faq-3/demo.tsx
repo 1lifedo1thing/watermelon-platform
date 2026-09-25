@@ -14,7 +14,7 @@ const demoFAQs = [
   {
     question: 'Can existing React or Next.js projects be improved?',
     answer:
-      'Yes. We can refactor existing codebases, improve performance, modernize base-ui systems, optimize state management, and restructure applications for better maintainability.',
+      'Yes. We can refactor existing codebases, improve performance, modernize UI systems, optimize state management, and restructure applications for better maintainability.',
   },
   {
     question: 'How quickly can a new project get started?',

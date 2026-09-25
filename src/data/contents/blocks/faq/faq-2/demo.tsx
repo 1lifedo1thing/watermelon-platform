@@ -11,7 +11,7 @@ const demoCategories = [
       {
         question: 'What technologies do you use for frontend development?',
         answer:
-          'We primarily build with React, Next.js, TypeScript, Tailwind CSS, and shadcn/base-ui. Our focus is on scalable architecture, responsive design, and maintainable component systems.',
+          'We primarily build with React, Next.js, TypeScript, Tailwind CSS, and shadcn/ui. Our focus is on scalable architecture, responsive design, and maintainable component systems.',
       },
       {
         question: 'Can you build real-time applications?',
@@ -36,7 +36,7 @@ const demoCategories = [
     icon: <FiLayout />,
     items: [
       {
-        question: 'Do you create fully custom base-ui designs?',
+        question: 'Do you create fully custom UI designs?',
         answer:
           'Yes. Every interface is designed specifically for the product’s goals and users. We focus on clean hierarchy, accessibility, responsive layouts, and polished interactions.',
       },

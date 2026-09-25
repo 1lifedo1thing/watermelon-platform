@@ -24,7 +24,7 @@ const projects = [
   },
   {
     id: '2',
-    name: 'Mobile App base-ui',
+    name: 'Mobile App UI',
     owner: 'Priya Verma',
     status: 'In Progress',
     tasks: 12,

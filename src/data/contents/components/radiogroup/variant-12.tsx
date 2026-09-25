@@ -53,7 +53,7 @@ const RadioGroup12 = () => {
             id={`${id}-pro-description`}
             className="text-muted-foreground text-xs leading-snug"
           >
-            Bbase-uilt for teams with advanced features.
+            Built for teams with advanced features.
           </p>
         </div>
       </div>

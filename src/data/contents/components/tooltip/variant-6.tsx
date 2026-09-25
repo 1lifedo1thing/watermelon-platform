@@ -23,7 +23,7 @@ const Tooltip6 = () => {
           </div>
           <p className="text-background/80">
             This section provides additional context to help you better
-            understand the feature. Use it as a quick gbase-uide while
+            understand the feature. Use it as a quick guide while
             navigating.
           </p>
         </div>

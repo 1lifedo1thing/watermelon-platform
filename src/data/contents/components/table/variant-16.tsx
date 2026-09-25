@@ -46,7 +46,7 @@ const candidates = [
   {
     id: '4',
     name: 'Sneha Kapoor',
-    role: 'base-ui Designer',
+    role: 'UI Designer',
     stage: 'Offer',
     applied: '5 Apr 2026',
     rating: '4.9',

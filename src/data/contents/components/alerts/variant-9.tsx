@@ -38,7 +38,7 @@ const Alert9 = () => {
         <div className="flex flex-col gap-1">
           <AlertTitle>@Shadcn assigned you a task</AlertTitle>
           <AlertDescription>
-            Finalize the dashboard base-ui and submit it before tomorrow’s
+            Finalize the dashboard UI and submit it before tomorrow’s
             review meeting.
           </AlertDescription>
         </div>

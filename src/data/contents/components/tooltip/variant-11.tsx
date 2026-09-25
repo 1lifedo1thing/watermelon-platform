@@ -27,7 +27,7 @@ const Tooltip11 = () => {
 
             <p className="text-muted-foreground text-xs">
               Organize your tasks, notes, and files in one unified place. Boost
-              productivity with a clean and intbase-uitive interface.{' '}
+              productivity with a clean and intuitive interface.{' '}
               <a
                 href="#"
                 className="hover:text-foreground flex w-fit items-center gap-1 underline"

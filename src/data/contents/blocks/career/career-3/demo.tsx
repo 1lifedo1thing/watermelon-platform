@@ -36,7 +36,7 @@ export default function Career3Demo() {
         },
         {
           id: '3',
-          title: 'base-ui/UX Designer',
+          title: 'UI/UX Designer',
           description:
             'Design user-friendly experiences for our suite of digital platforms.',
           location: 'United States',
