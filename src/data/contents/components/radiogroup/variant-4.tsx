@@ -48,7 +48,7 @@ const RadioGroup4 = () => {
             <span className="text-foreground text-xs">₹799/mo</span>
           </div>
           <p className="text-muted-foreground text-xs">
-            Bbase-uilt for collaboration and shared workflows
+            Built for collaboration and shared workflows
           </p>
         </div>
       </label>

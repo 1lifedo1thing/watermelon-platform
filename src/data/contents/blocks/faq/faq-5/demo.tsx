@@ -22,7 +22,7 @@ export default function Faq5Demo() {
         {
           question: 'What frontend technologies do you specialize in?',
           answer:
-            'We primarily work with React, Next.js, TypeScript, Tailwind CSS, and shadcn/base-ui. Our focus is on building scalable, performant, and maintainable frontend systems.',
+            'We primarily work with React, Next.js, TypeScript, Tailwind CSS, and shadcn/ui. Our focus is on building scalable, performant, and maintainable frontend systems.',
         },
         {
           question: 'Can you create reusable design systems?',

@@ -41,7 +41,7 @@ const employees = [
   {
     id: 4,
     name: 'Sneha Kapoor',
-    role: 'base-ui Designer',
+    role: 'UI Designer',
     company: 'PixelCraft',
     email: 'sneha@pixel.com',
     location: 'India',

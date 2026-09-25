@@ -9,9 +9,9 @@ const faqs = [
   },
   {
     id: 'item-2',
-    question: 'Can you build fully custom base-ui components?',
+    question: 'Can you build fully custom UI components?',
     answer:
-      'Yes. We design and develop fully custom base-ui systems tailored to your product requirements. From dashboards and landing pages to complex SaaS interfaces, every component is built with accessibility, responsiveness, and scalability in mind.',
+      'Yes. We design and develop fully custom UI systems tailored to your product requirements. From dashboards and landing pages to complex SaaS interfaces, every component is built with accessibility, responsiveness, and scalability in mind.',
     date: '11 May, 2026',
   },
   {

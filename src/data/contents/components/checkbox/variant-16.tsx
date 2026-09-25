@@ -13,7 +13,7 @@ type CheckboxCopy = {
 
 const checkboxCopy: CheckboxCopy = {
   label: 'Receive email notifications',
-  description: 'You confirm that you have read and accepted the current usage gbase-uidelines.'
+  description: 'You confirm that you have read and accepted the current usage guidelines.'
 }
 
 const Checkbox16 = () => {

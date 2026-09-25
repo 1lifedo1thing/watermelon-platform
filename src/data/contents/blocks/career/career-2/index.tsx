@@ -100,8 +100,8 @@ const defaultJobs: Career2Job[] = [
     href: '#',
   },
   {
-    id: 'base-ui-ux-designer',
-    title: 'Fintech base-ui/UX Designer',
+    id: 'ui-ux-designer',
+    title: 'Fintech UI/UX Designer',
     description: 'Design intuitive banking apps for better user trust.',
     category: 'banking',
     location: 'United States',

@@ -29,7 +29,7 @@ const tasks = [
     image: 'https://github.com/raunofreiberg.png',
     fallback: 'RF',
     name: 'Rauno Freiberg',
-    designation: 'base-ui Engineer',
+    designation: 'UI Engineer',
     percentage: 81,
   },
   {
