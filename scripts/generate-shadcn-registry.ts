@@ -18,6 +18,16 @@ const BASE_COMPONENT_DIRECTORY = path.join(
 const OUTPUT_DIRECTORY = path.join(ROOT, 'public/r');
 const REGISTRY_MANIFEST_PATH = path.join(ROOT, 'public/registry.json');
 
+// Dashboards, blocks and templates are built in the watermellon-registry repo.
+// registry.watermelon.sh is served by this worker, so those items have to be
+// published here too or their install commands 404.
+const UPSTREAM_REGISTRY_URL =
+  process.env.WATERMELON_UPSTREAM_REGISTRY_URL ??
+  'https://raw.githubusercontent.com/WatermelonCorp/watermellon-registry/main/public/r';
+const UPSTREAM_FETCH_CONCURRENCY = 16;
+
+type UpstreamRegistryItem = { name: string } & Record<string, unknown>;
+
 type RegistryItem = {
   $schema: string;
   name: string;
@@ -180,11 +190,51 @@ export async function buildRegistryItems() {
   return [...items, ...(await buildBaseComponentItems())];
 }
 
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
+// Items maintained in this repo win over upstream items with the same name.
+export async function fetchUpstreamRegistryItems(
+  excludeNames: Set<string>,
+  baseUrl = UPSTREAM_REGISTRY_URL,
+) {
+  const catalog = await fetchJson<{ items: Array<{ name: string }> }>(
+    `${baseUrl}/registry.json`,
+  );
+  const names = catalog.items
+    .map((item) => item.name)
+    .filter((name) => !excludeNames.has(name));
+  const items: UpstreamRegistryItem[] = [];
+
+  for (let index = 0; index < names.length; index += UPSTREAM_FETCH_CONCURRENCY) {
+    const batch = names.slice(index, index + UPSTREAM_FETCH_CONCURRENCY);
+    items.push(
+      ...(await Promise.all(
+        batch.map((name) => fetchJson<UpstreamRegistryItem>(`${baseUrl}/${name}.json`)),
+      )),
+    );
+  }
+
+  return items;
+}
+
 export async function generateShadcnRegistry(
   outputDirectory = OUTPUT_DIRECTORY,
   manifestPath = REGISTRY_MANIFEST_PATH,
+  { includeUpstream = false }: { includeUpstream?: boolean } = {},
 ) {
-  const items = await buildRegistryItems();
+  const localItems = await buildRegistryItems();
+  const upstreamItems = includeUpstream
+    ? await fetchUpstreamRegistryItems(new Set(localItems.map((item) => item.name)))
+    : [];
+  const items: Array<RegistryItem | UpstreamRegistryItem> = [...localItems, ...upstreamItems];
 
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(outputDirectory, { recursive: true });
@@ -220,6 +270,8 @@ export async function generateShadcnRegistry(
 }
 
 if (import.meta.main) {
-  const { items } = await generateShadcnRegistry();
+  const { items } = await generateShadcnRegistry(OUTPUT_DIRECTORY, REGISTRY_MANIFEST_PATH, {
+    includeUpstream: process.env.WATERMELON_SKIP_UPSTREAM_REGISTRY !== '1',
+  });
   console.log(`Generated ${items.length} Watermelon shadcn registry items.`);
 }
