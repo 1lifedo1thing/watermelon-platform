@@ -16,6 +16,10 @@ on:
       - 'vite.config.ts'
       - 'wrangler.toml'
       - '.github/workflows/deploy-platform.yml'
+  # Dashboards and blocks under /r come from watermellon-registry at build
+  # time, so redeploy daily to publish registry changes merged there.
+  schedule:
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
