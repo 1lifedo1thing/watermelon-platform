@@ -1,7 +1,7 @@
 import { afterAll, describe, expect, it } from 'bun:test';
 import { mkdir, readFile, rm } from 'node:fs/promises';
 import path from 'node:path';
-import { generateShadcnRegistry } from './generate-shadcn-registry';
+import { fetchUpstreamRegistryItems, generateShadcnRegistry } from './generate-shadcn-registry';
 
 const testDirectory = path.join(import.meta.dir, '.registry-test-output');
 
@@ -66,5 +66,27 @@ describe('generateShadcnRegistry', () => {
       await readFile(path.join(testDirectory, 'registry-root.json'), 'utf8'),
     );
     expect(root).toEqual(catalog);
+  });
+
+  it('publishes upstream dashboards and blocks without overriding local items', async () => {
+    const upstream: Record<string, object> = {
+      'registry.json': { items: [{ name: 'medesk-dashboard' }, { name: 'accordion-1' }] },
+      'medesk-dashboard.json': { name: 'medesk-dashboard', type: 'registry:block', files: [] },
+    };
+    const server = Bun.serve({
+      port: 0,
+      fetch(request) {
+        const file = upstream[new URL(request.url).pathname.slice(1)];
+        return file ? Response.json(file) : new Response('Not found', { status: 404 });
+      },
+    });
+
+    try {
+      const items = await fetchUpstreamRegistryItems(new Set(['accordion-1']), server.url.origin);
+
+      expect(items.map((item) => item.name)).toEqual(['medesk-dashboard']);
+    } finally {
+      server.stop();
+    }
   });
 });
