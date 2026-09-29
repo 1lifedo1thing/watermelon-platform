@@ -29,7 +29,32 @@ interface RegistryCardProps {
 
 export const RegistryCard = memo(function RegistryCard({ item, onClick }: RegistryCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  // Only fetch the preview video once the card is near the viewport, so a page
+  // of cards does not download every video at once. The poster image shows
+  // instantly in the meantime.
+  const [isNearViewport, setIsNearViewport] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card || isNearViewport) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setIsNearViewport(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsNearViewport(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [isNearViewport]);
 
   // Get the CLI command from item.install (same as component-modal)
   // const cliCommand = item.install?.[0] || `npx shadcn@latest add ${item.slug}`;
@@ -89,11 +114,15 @@ export const RegistryCard = memo(function RegistryCard({ item, onClick }: Regist
 
   return (
     <div
+      ref={cardRef}
       role="button"
       tabIndex={0}
       onClick={activate}
       onKeyDown={handleKeyDown}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        setIsNearViewport(true);
+        setIsHovered(true);
+      }}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "group relative cursor-pointer",
@@ -177,11 +206,13 @@ export const RegistryCard = memo(function RegistryCard({ item, onClick }: Regist
         {item.video && (
           <video
             ref={videoRef}
-            src={`${item.video}#t=0.001`} // this line is used for play video on specific time and also create the poster
+            // #t=0.001 makes the first frame show once loaded; until then the poster does.
+            src={isNearViewport ? `${item.video}#t=0.001` : undefined}
+            poster={item.image || undefined}
             muted
             loop
             playsInline
-            preload="metadata"
+            preload={isNearViewport ? "auto" : "none"}
             aria-hidden="true"
             tabIndex={-1}
             className="absolute inset-0 h-full w-full object-cover"
