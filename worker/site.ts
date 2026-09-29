@@ -2,6 +2,7 @@ import { catalog, type CatalogKind } from '../mcp/catalog.generated';
 import { opsMetadata } from '../src/data/ops.generated';
 import { agentPages, renderMarkdownAsHtml } from './agent-pages';
 import { internalRoutes, knownRoutes } from './routes.generated';
+import { resolveRouteSeo } from './seo-html';
 
 type Env = {
   ASSETS: Fetcher;
@@ -220,19 +221,51 @@ async function injectAgentHtml(env: Env, pathname: string) {
   const response = await env.ASSETS.fetch('https://assets.local/index.html');
   const html = await response.text();
   const agentPage = agentPages[pathname] ?? agentPages['/'];
+  // Route-specific metadata, so no URL ships the homepage title or canonical.
+  const routeSeo = agentPages[pathname] ? null : resolveRouteSeo(pathname);
+  const title = routeSeo?.title ?? agentPage.title;
+  const description = routeSeo?.description ?? agentPage.description;
+  const canonical =
+    routeSeo?.canonical ??
+    `https://ui.watermelon.sh${pathname === '/' ? '/' : pathname}`;
+  const bodyHtml = routeSeo?.bodyHtml ?? renderMarkdownAsHtml(agentPage.markdown);
+  const schemaTags = (routeSeo?.schemas ?? [])
+    .map(
+      (schema) =>
+        `<script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>`,
+    )
+    .join('');
 
   const injected = html
-    .replace(
-      '<title>Watermelon UI — Premium React Components, Dashboards & Blocks</title>',
-      `<title>${agentPage.title}</title>`,
-    )
+    .replace(/<title>[^<]*<\/title>/, `<title>${escapeText(title)}</title>`)
     .replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
-      `<meta name="description" content="${escapeAttribute(agentPage.description)}" />`,
+      `<meta name="description" content="${escapeAttribute(description)}" />`,
     )
     .replace(
+      /<link rel="canonical" href="[^"]*" \/>/,
+      `<link rel="canonical" href="${escapeAttribute(canonical)}" />`,
+    )
+    .replace(
+      /<meta property="og:url" content="[^"]*" \/>/,
+      `<meta property="og:url" content="${escapeAttribute(canonical)}" />`,
+    )
+    .replace(
+      /<meta property="og:type" content="[^"]*" \/>/,
+      `<meta property="og:type" content="${routeSeo?.ogType ?? 'website'}" />`,
+    )
+    .replace(
+      /(<meta\s+(?:property="og:title"|name="twitter:title")\s+content=)"[^"]*"/g,
+      `$1"${escapeAttribute(title)}"`,
+    )
+    .replace(
+      /(<meta\s+(?:property="og:description"|name="twitter:description")\s+content=)"[^"]*"/g,
+      `$1"${escapeAttribute(description)}"`,
+    )
+    .replace('</head>', `${schemaTags}</head>`)
+    .replace(
       '<div id="agent-preload"></div>',
-      `<div id="agent-preload" data-agent-path="${pathname}"><main class="agent-preload">${renderMarkdownAsHtml(agentPage.markdown)}</main></div>`,
+      `<div id="agent-preload" data-agent-path="${escapeAttribute(pathname)}"><main class="agent-preload">${bodyHtml}</main></div>`,
     );
 
   return new Response(injected, {
@@ -500,5 +533,13 @@ export default {
 };
 
 function escapeAttribute(value: string) {
-  return value.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function escapeText(value: string) {
+  return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }

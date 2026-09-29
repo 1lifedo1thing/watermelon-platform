@@ -44,6 +44,18 @@ const NotFoundPage = lazy(() => import('@/pages/not-found'));
 const PreviewPage = lazy(() => import('@/pages/preview'));
 const UiComponentsPage = lazy(() => import('@/pages/components'));
 const UiCategoryPage = lazy(() => import('@/pages/component-category'));
+const SeoRoutePage = lazy(() => import('@/pages/seo-page'));
+
+// Programmatic SEO pages (content in src/data/seo). One component serves all.
+const seoRoutePaths = [
+  '/alternatives',
+  '/alternatives/:slug',
+  '/compare/:slug',
+  '/free',
+  '/free/:slug',
+  '/guides',
+  '/guides/:slug',
+];
 
 export function AppRoutes() {
   const isComponentPage = useMatch('/animated-components/:slug');
@@ -303,6 +315,19 @@ export function AppRoutes() {
             </Suspense>
           }
         />
+
+        {/* Alternatives, comparisons, free collections, and guides */}
+        {seoRoutePaths.map((path) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              <Suspense fallback={<DocPageSkeleton />}>
+                <SeoRoutePage />
+              </Suspense>
+            }
+          />
+        ))}
 
         {/* 404 */}
         <Route
