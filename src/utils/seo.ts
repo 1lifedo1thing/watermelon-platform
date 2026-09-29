@@ -44,7 +44,7 @@ export const generateOrganizationSchema = () => ({
   logo: `${siteConfig.url}/logo.png`,
   sameAs: [
     'https://github.com/watermeloncorp',
-    'https://twitter.com/watermelonshHQ',
+    'https://x.com/watermelonui',
   ],
 });
 
