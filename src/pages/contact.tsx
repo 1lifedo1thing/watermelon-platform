@@ -32,7 +32,7 @@ export default function ContactPage() {
 
         <DocSection title="Community and Sponsorship">
           <DocText>
-            Watermelon is built for the wider builder community, and we want support conversations to stay straightforward. If you want to sponsor the work, collaborate on ecosystem improvements, or help us shape public contribution paths such as showcases and registries, mention that explicitly in your email. We use those conversations to prioritize work that keeps more of the ecosystem free, usable, and well-maintained for everyone.
+            Watermelon is built for the wider builder community, and we want support conversations to stay straightforward. If you want to sponsor the work, collaborate on ecosystem improvements, or help us shape public contribution paths such as blocks and registries, mention that explicitly in your email. We use those conversations to prioritize work that keeps more of the ecosystem free, usable, and well-maintained for everyone.
           </DocText>
         </DocSection>
       </DocPage>

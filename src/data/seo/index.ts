@@ -96,7 +96,6 @@ const relatedByCatalogKind: Record<CatalogListKind, string[]> = {
   blocks: ['/free/tailwind-blocks', '/free/landing-page-components', '/alternatives/tailwind-ui', '/guides/is-tailwind-ui-free'],
   dashboards: ['/free/react-dashboard-templates', '/guides/build-react-dashboard-fast', '/alternatives/untitled-ui'],
   templates: ['/free/landing-page-components', '/free/tailwind-blocks', '/alternatives/tailwind-ui'],
-  showcases: ['/free/landing-page-components', '/free/tailwind-blocks', '/guides/ui-components-for-vibe-coding'],
 };
 
 export function relatedSeoPagesFor(kind: CatalogListKind): SeoPage[] {

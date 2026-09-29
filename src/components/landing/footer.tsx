@@ -72,12 +72,6 @@ export default function Footer() {
                 Blocks
               </a>
               <a
-                href="/showcases"
-                className="text-sm text-white/50 transition-colors hover:text-white"
-              >
-                Showcases
-              </a>
-              <a
                 href="/dashboards"
                 className="text-sm text-white/50 transition-colors hover:text-white"
               >
@@ -90,7 +84,6 @@ export default function Footer() {
                  <div className="text-primary font-mono text-xs mb-2 tracking-widest flex gap-2"><span className="opacity-70">{"//"}</span> RESOURCES</div>
                  <a href="#" className="text-sm text-white/50 hover:text-white transition-colors">Docs</a>
                  <a href="#" className="text-sm text-white/50 hover:text-white transition-colors">Examples</a>
-                 <a href="#" className="text-sm text-white/50 hover:text-white transition-colors">Showcase</a>
                  <a href="#" className="text-sm text-white/50 hover:text-white transition-colors">Blog</a>
                </div> */}
             {/* Link Column 3 */}

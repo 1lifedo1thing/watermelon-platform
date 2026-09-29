@@ -41,7 +41,6 @@ const pages = [
     icon: Home01Icon,
     shortcut: 'C',
   },
-  { name: 'Showcases', href: '/showcases', icon: GridIcon, shortcut: 'S' },
   // { name: 'Dashboards', href: '/dashboards', icon: LayoutIcon, shortcut: 'D' },
   // { name: 'Blocks', href: '/blocks', icon: GridIcon, shortcut: 'B' },
 

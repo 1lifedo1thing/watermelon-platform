@@ -127,6 +127,5 @@ export const ogImageRoutes = [
   "/guides/shadcn-sheet-vs-drawer",
   "/guides/ui-components-for-vibe-coding",
   "/home",
-  "/showcases",
   "/templates"
 ] as const;

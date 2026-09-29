@@ -8,7 +8,6 @@ import {
   BlocksPageSkeleton,
   BlockPageSkeleton,
   DashboardsPageSkeleton,
-  ShowcasesPageSkeleton,
   TemplatesPageSkeleton,
   DashboardPageSkeleton,
 } from '@/components/skeletons';
@@ -34,8 +33,6 @@ const DashboardsPage = lazy(() => import('@/pages/dashboards'));
 const DashboardPage = lazy(() => import('@/pages/dashboard'));
 const TemplatesPage = lazy(() => import('@/pages/templates'));
 const TemplatePage = lazy(() => import('@/pages/template'));
-const ShowcasesPage = lazy(() => import('@/pages/showcases'));
-const ShowcasePage = lazy(() => import('@/pages/showcase'));
 const BlocksPage = lazy(() => import('@/pages/blocks'));
 const BlockCategoryPage = lazy(() => import('@/pages/block-category'));
 const BlockPage = lazy(() => import('@/pages/block'));
@@ -239,22 +236,6 @@ export function AppRoutes() {
         />
 
         {/* Dashboard pages */}
-        <Route
-          path="/showcases"
-          element={
-            <Suspense fallback={<ShowcasesPageSkeleton />}>
-              <ShowcasesPage />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/showcase/:slug"
-          element={
-            <Suspense fallback={<DashboardPageSkeleton />}>
-              <ShowcasePage />
-            </Suspense>
-          }
-        />
         <Route
           path="/dashboards"
           element={

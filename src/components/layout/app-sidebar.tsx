@@ -65,7 +65,6 @@ import {
 import { allAnimatedCategories } from '@/data/animated-components-metadata';
 import { uiCategories } from '@/data/components-registry';
 import { blockCategories } from '@/data/block-metadata';
-import { showcaseMetadata } from '@/data/showcase-metadata';
 
 // ─── Imports: routing ────────────────────────────────────────────────────────
 import { Link, useLocation } from 'react-router-dom';
@@ -390,16 +389,6 @@ export function AppSidebar() {
     [location.pathname],
   );
 
-  const showcaseNavItems = useMemo(
-    () =>
-      showcaseMetadata.map((showcase) => ({
-        title: showcase.name,
-        url: `/showcase/${showcase.slug}`,
-        isActive: location.pathname === `/showcase/${showcase.slug}`,
-      })),
-    [location.pathname],
-  );
-
   // ── Theme toggle ──
   const isDark = resolvedTheme === 'dark';
   const handleThemeToggle = useCallback(
@@ -516,16 +505,6 @@ export function AppSidebar() {
               icon={Component}
               items={uiComponentCategories}
               isAnyChildActive={location.pathname.startsWith('/components')}
-            />
-            <ExploreCollapsibleItem
-              title="Showcases"
-              titleUrl="/showcases"
-              icon={SparklesIcon}
-              items={showcaseNavItems}
-              isAnyChildActive={
-                location.pathname === '/showcases' ||
-                location.pathname.startsWith('/showcase/')
-              }
             />
             {/* Blocks — collapsible, expands to all UI block categories */}
             <ExploreCollapsibleItem

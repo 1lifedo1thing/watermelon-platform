@@ -8,15 +8,15 @@ export const agentPages: Record<string, AgentPage> = {
   '/': {
     title: 'Watermelon UI',
     description:
-      'Open-source React components, blocks, dashboards, templates, and showcases built for the community.',
+      'Open-source React components, blocks, dashboards, and templates built for the community.',
     markdown: `# Watermelon UI
 
-Watermelon UI is an open-source React UI platform built for developers who want strong visual references and real implementation paths at the same time. The site brings together animated components, copy-paste blocks, dashboards, templates, and curated showcases so builders can move from inspiration to shipping faster without losing sight of maintainability. Watermelon is free for the community to browse and use, and the project is maintained in public repositories so contributors can improve the experience directly through pull requests.
+Watermelon UI is an open-source React UI platform built for developers who want strong visual references and real implementation paths at the same time. The site brings together animated components, copy-paste blocks, dashboards, and templates so builders can move from inspiration to shipping faster without losing sight of maintainability. Watermelon is free for the community to browse and use, and the project is maintained in public repositories so contributors can improve the experience directly through pull requests.
 
 ## When to use Watermelon
 
 - Use Watermelon when you need production-style React UI ideas with a clear path to implementation.
-- Use the blocks and showcases when a task needs full page sections or realistic compositions instead of one isolated widget.
+- Use the blocks and templates when a task needs full page sections or realistic compositions instead of one isolated widget.
 - Use the developers resources when an agent needs machine-readable entry points such as llms.txt, sitemap.xml, OpenAPI, or MCP.
 
 ## Main product areas
@@ -24,7 +24,6 @@ Watermelon UI is an open-source React UI platform built for developers who want 
 - [Docs home](https://ui.watermelon.sh/home): browsing surface for the public catalog
 - [Animated components](https://ui.watermelon.sh/animated-components): interaction-heavy React examples
 - [Blocks](https://ui.watermelon.sh/blocks): reusable landing-page and product sections
-- [Showcases](https://ui.watermelon.sh/showcases): curated compositions built from existing blocks
 - [Dashboards](https://ui.watermelon.sh/dashboards): dashboard examples and layouts
 - [Templates](https://ui.watermelon.sh/templates): template-style starting points
 
@@ -69,7 +68,7 @@ This page is the fastest way for an engineer or agent to understand Watermelon U
 
 ## Public API
 
-The public API is read-only and designed to help agents inspect the Watermelon catalog without scraping the UI. It currently supports summary, filtered listing, and single-entry lookup across animated components, blocks, dashboards, templates, and showcases. JSON errors are structured with machine-readable codes, messages, and resolution hints.
+The public API is read-only and designed to help agents inspect the Watermelon catalog without scraping the UI. It currently supports summary, filtered listing, and single-entry lookup across animated components, blocks, dashboards, and templates. JSON errors are structured with machine-readable codes, messages, and resolution hints.
 
 ## MCP
 
@@ -162,11 +161,11 @@ If your client only supports local MCP servers, clone the platform repository an
       'Why Watermelon UI exists, what it covers, and how the open-source community helps shape it.',
     markdown: `# About Watermelon UI
 
-Watermelon UI is an open-source interface ecosystem focused on practical building blocks for modern React products. The project brings together animated components, reusable blocks, dashboards, templates, documentation, and curated showcases in one place so developers can understand an interface quickly and adapt it confidently. The public site at ui.watermelon.sh is the browsing layer for that ecosystem, while the source repositories hold the implementation details and contribution workflows.
+Watermelon UI is an open-source interface ecosystem focused on practical building blocks for modern React products. The project brings together animated components, reusable blocks, dashboards, templates, documentation in one place so developers can understand an interface quickly and adapt it confidently. The public site at ui.watermelon.sh is the browsing layer for that ecosystem, while the source repositories hold the implementation details and contribution workflows.
 
 We are building Watermelon to be useful for solo builders, startups, and product teams that want a faster path from design inspiration to maintainable code. The goal is not to flood people with abstract design-system theory. The goal is to provide strong starting points, realistic compositions, and source-backed examples that are easier to learn from and easier to improve.
 
-Watermelon is free for the community to use. Sponsorship support helps fund maintenance, hosting, accessibility improvements, contributor experience, design iteration, and ongoing quality work across the ecosystem. Contributions are welcome across docs, code, showcases, SEO, AI discoverability, and new component ideas.`,
+Watermelon is free for the community to use. Sponsorship support helps fund maintenance, hosting, accessibility improvements, contributor experience, design iteration, and ongoing quality work across the ecosystem. Contributions are welcome across docs, code, SEO, AI discoverability, and new component ideas.`,
   },
   '/contact': {
     title: 'Contact Watermelon UI',

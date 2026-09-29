@@ -41,11 +41,6 @@ export const changelogData: ChangelogEntry[] = [
         count: 11,
         href: '/dashboards',
       },
-      {
-        label: 'Showcases',
-        count: 2,
-        href: '/showcases',
-      },
     ],
     sections: [
       {

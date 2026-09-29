@@ -15,7 +15,6 @@ const kindDirectories: Record<Exclude<CatalogKind, 'components'>, string> = {
   blocks: 'blocks',
   dashboards: 'dashboards',
   templates: 'templates',
-  showcases: 'showcases',
 };
 
 function readFiles(dir: string, extension: string): string[] {
@@ -51,7 +50,6 @@ function routeFor(kind: Exclude<CatalogKind, 'components'>, slug: string, catego
   if (kind === 'blocks') return `${SITE_URL}/block/${slug}`;
   if (kind === 'dashboards') return `${SITE_URL}/dashboard/${slug}`;
   if (kind === 'templates') return `${SITE_URL}/template/${slug}`;
-  if (kind === 'showcases') return `${SITE_URL}/showcase/${slug}`;
   return category ? `${SITE_URL}/${kind}/${category}` : `${SITE_URL}/${kind}`;
 }
 

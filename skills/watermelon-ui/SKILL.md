@@ -1,6 +1,6 @@
 ---
 name: watermelon-ui
-description: Discover and install free, source-backed React UI from Watermelon. Use when a user needs a component, block, dashboard, template, showcase, design inspiration, or a composed page built from compatible sections.
+description: Discover and install free, source-backed React UI from Watermelon. Use when a user needs a component, block, dashboard, template, design inspiration, or a composed page built from compatible sections.
 ---
 
 # Watermelon UI Skill
@@ -24,7 +24,7 @@ Call `compose_page` for landing pages and other multi-section experiences. Treat
 - Use `components` for familiar UI primitives and variants.
 - Use `animated-components` for interaction-heavy standalone pieces.
 - Use `blocks` for complete page sections.
-- Use `dashboards`, `templates`, and `showcases` for composition references.
+- Use `dashboards` and `templates` for composition references.
 - Preserve the user's existing framework and conventions. Do not force Watermelon styling over an established design system.
 
 ## Setup

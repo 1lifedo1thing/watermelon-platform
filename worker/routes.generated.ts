@@ -470,9 +470,6 @@ export const knownRoutes = [
   "/home",
   "/installation",
   "/privacy",
-  "/showcase/product-waitlist-funnel",
-  "/showcase/saas-launch-stack",
-  "/showcases",
   "/template/landing-01",
   "/templates",
   "/terms"

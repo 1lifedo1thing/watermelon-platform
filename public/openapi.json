@@ -19,7 +19,7 @@
       "get": {
         "operationId": "getCatalogSummaryV1",
         "summary": "Get Watermelon catalog summary",
-        "description": "Canonical v1 endpoint. Returns top-level counts for animated components, blocks, dashboards, templates, and showcases.",
+        "description": "Canonical v1 endpoint. Returns top-level counts for animated components, blocks, dashboards, and templates.",
         "responses": {
           "200": {
             "description": "Catalog summary returned successfully.",
@@ -60,7 +60,7 @@
       "get": {
         "operationId": "getCatalogSummary",
         "summary": "Get Watermelon catalog summary",
-        "description": "Compatibility alias for /api/v1/catalog/summary. Returns top-level counts for animated components, blocks, dashboards, templates, and showcases.",
+        "description": "Compatibility alias for /api/v1/catalog/summary. Returns top-level counts for animated components, blocks, dashboards, and templates.",
         "responses": {
           "200": {
             "description": "Catalog summary returned successfully.",
@@ -445,8 +445,7 @@
           "animated-components",
           "blocks",
           "dashboards",
-          "templates",
-          "showcases"
+          "templates"
         ]
       },
       "CatalogEntry": {
