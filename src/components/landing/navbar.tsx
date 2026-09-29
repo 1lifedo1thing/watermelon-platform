@@ -39,9 +39,6 @@ export default function Navbar() {
         {/* Right side */}
         <div className="hidden md:flex items-center gap-4">
           <div className="flex items-center gap-5 font-mono text-[11px] uppercase tracking-[0.22em] text-white/55">
-            <Link to="/showcases" className="transition-colors hover:text-white">
-              Showcases
-            </Link>
             <Link to="/developers" className="transition-colors hover:text-white">
               Developers
             </Link>
@@ -73,9 +70,6 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-background border-b border-border/50 shadow-lg p-4 flex flex-col gap-4 animate-fade-in-up">
-          <Link to="/showcases" className="text-sm text-foreground/80 hover:text-foreground">
-            Showcases
-          </Link>
           <Link to="/developers" className="text-sm text-foreground/80 hover:text-foreground">
             Developers
           </Link>

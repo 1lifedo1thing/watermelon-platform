@@ -94,7 +94,6 @@ const cards: Card[] = [
     ['/blocks', 'Catalog', 'React and Tailwind blocks'],
     ['/dashboards', 'Catalog', 'React dashboard templates'],
     ['/templates', 'Catalog', 'React templates'],
-    ['/showcases', 'Catalog', 'Showcases'],
   ].map(([p, eyebrow, title]) => ({
     path: p,
     eyebrow,
