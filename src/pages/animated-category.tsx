@@ -93,7 +93,7 @@ export default function AnimatedCategoryPage() {
           </div>
         )}
 
-        <RelatedResources kind="animated-components" className="mx-4 md:mx-6 lg:mx-8" />
+        <RelatedResources kind="animated-components" />
 
         <ComponentModal
           item={selectedItem}

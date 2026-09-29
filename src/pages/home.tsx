@@ -18,6 +18,7 @@ import { templates } from '@/data/templates';
 // Components
 import { RegistryCard } from '@/components/registry/registry-card';
 import { DashboardCard } from '@/components/registry/dashboard-card';
+import { ComponentCategoryCard } from '@/components/registry/component-category-card';
 
 // Modals
 const ComponentModal = lazy(() =>
@@ -88,13 +89,6 @@ export default function HomePage() {
     </div>
   );
 
-  const renderComponentFallback = (label: string) => (
-    <div className="space-y-2 p-4 text-center">
-      <div className="text-4xl">⚛️</div>
-      <p className="text-sm font-medium text-neutral-500">{label}</p>
-    </div>
-  );
-
   const organizationSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -136,10 +130,12 @@ export default function HomePage() {
           title="Animated Components"
           viewAllUrl="/animated-components"
         >
-          {registry.map((item) => (
+          {registry.map((item, index) => (
             <div key={item.slug} className="w-[300px] sm:w-[380px] lg:w-[420px] shrink-0 snap-start">
               <RegistryCard
                 item={item}
+                // Warm the first cards so swiping through the row plays instantly.
+                preloadVideo={index < 10}
                 onClick={(clickedItem) => setSelectedItem(clickedItem)}
               />
             </div>
@@ -152,62 +148,15 @@ export default function HomePage() {
           title="Components"
           viewAllUrl="/components"
         >
-          {uiCategories.map((cat) => {
-            const variantCount = uiRegistry[cat.slug]?.length ?? 0;
-
-            return (
-              <Link
-                key={cat.slug}
-                to={`/components/${cat.slug}`}
-                id={`ui-category-${cat.slug}`}
-                className={cn(
-                  'group relative block cursor-pointer no-underline w-[300px] sm:w-[380px] lg:w-[420px] shrink-0 snap-start',
-                  'rounded-4xl p-2',
-                  'bg-gray-100',
-                  'dark:border-0 dark:bg-neutral-800',
-                  'backdrop-blur-xl backdrop-saturate-150',
-                  'shadow-[inset_0_1px_0_0_var(--color-gray-200),inset_0_2px_0_0_rgba(255,255,255,1)]',
-                  'dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]',
-                  'transition-all duration-300',
-                  'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
-                )}
-              >
-                <div className="relative z-10 flex items-center justify-between gap-4 px-2 pt-2 pb-3">
-                  <span className="min-w-0 text-foreground truncate text-base leading-tight font-medium">
-                    {cat.label}
-                  </span>
-                  <span className="shrink-0 text-muted-foreground text-xs capitalize whitespace-nowrap">
-                    {variantCount} {variantCount === 1 ? 'item' : 'items'}
-                  </span>
-                </div>
-
-                <div
-                  className={cn(
-                    'relative aspect-4/3 w-full overflow-hidden rounded-[20px]',
-                    'bg-muted',
-                    'border border-neutral-200/50 dark:border-white/5',
-                    'shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.05)]',
-                    'dark:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.2)]',
-                  )}
-                >
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 z-10 rounded-[20px] ring-1 ring-white/20 ring-inset dark:ring-white/5"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-white transition-colors duration-300 dark:bg-black">
-                    <ResilientImage
-                      src={`/cdn/components/${cat.slug}.png`}
-                      alt={`${cat.label} preview`}
-                      loading="lazy"
-                      decoding="async"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      fallback={renderComponentFallback(cat.label)}
-                    />
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+          {uiCategories.map((cat) => (
+            <ComponentCategoryCard
+              key={cat.slug}
+              slug={cat.slug}
+              label={cat.label}
+              variantCount={uiRegistry[cat.slug]?.length ?? 0}
+              className="w-[300px] sm:w-[380px] lg:w-[420px] shrink-0 snap-start"
+            />
+          ))}
         </CategoryRow>
 
         {/* 3. UI Blocks Row */}
