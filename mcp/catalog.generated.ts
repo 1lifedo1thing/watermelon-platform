@@ -12372,23 +12372,5 @@ export const catalog: CatalogData = {
         "@hugeicons/core-free-icons"
       ]
     }
-  ],
-  "showcases": [
-    {
-      "kind": "showcases",
-      "slug": "product-waitlist-funnel",
-      "title": "Product Waitlist Funnel",
-      "description": "A lean pre-launch page composition focused on waitlist growth, product positioning, proof, and final contact conversion.",
-      "path": "src/data/contents/showcases/product-waitlist-funnel.mdx",
-      "previewUrl": "https://ui.watermelon.sh/showcase/product-waitlist-funnel"
-    },
-    {
-      "kind": "showcases",
-      "slug": "saas-launch-stack",
-      "title": "SaaS Launch Stack",
-      "description": "A polished marketing composition for launching a modern SaaS product, built from existing hero, feature, testimonial, pricing, CTA, and footer blocks.",
-      "path": "src/data/contents/showcases/saas-launch-stack.mdx",
-      "previewUrl": "https://ui.watermelon.sh/showcase/saas-launch-stack"
-    }
   ]
 } as CatalogData;

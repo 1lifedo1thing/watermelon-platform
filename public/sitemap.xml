@@ -2809,24 +2809,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ui.watermelon.sh/showcase/product-waitlist-funnel</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ui.watermelon.sh/showcase/saas-launch-stack</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ui.watermelon.sh/showcases</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://ui.watermelon.sh/template/landing-01</loc>
     <lastmod>2026-06-28</lastmod>
     <changefreq>weekly</changefreq>

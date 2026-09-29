@@ -178,7 +178,6 @@ const hubFor: Record<CatalogKind, { title: string; href: string }> = {
   blocks: { title: 'Free Tailwind blocks', href: '/free/tailwind-blocks' },
   dashboards: { title: 'Free React dashboard templates', href: '/free/react-dashboard-templates' },
   templates: { title: 'Free landing page components', href: '/free/landing-page-components' },
-  showcases: { title: 'Free landing page components', href: '/free/landing-page-components' },
 };
 
 const listing: Record<CatalogKind, { name: string; path: string }> = {
@@ -187,7 +186,6 @@ const listing: Record<CatalogKind, { name: string; path: string }> = {
   blocks: { name: 'Blocks', path: '/blocks' },
   dashboards: { name: 'Dashboards', path: '/dashboards' },
   templates: { name: 'Templates', path: '/templates' },
-  showcases: { name: 'Showcases', path: '/showcases' },
 };
 
 function titleCase(slug: string) {
@@ -296,7 +294,6 @@ function catalogRoute(pathname: string): RouteSeo | null {
     block: { kind: 'blocks', suffix: ' - UI Block' },
     dashboard: { kind: 'dashboards', suffix: ' - Dashboard Template' },
     template: { kind: 'templates', suffix: ' - Template' },
-    showcase: { kind: 'showcases', suffix: '' },
   };
   const match = segments.length === 2 ? detail[segments[0]] : undefined;
   if (match) {
@@ -370,12 +367,6 @@ const staticPages: Record<string, { title: string; description: string; kind?: C
     title: 'Templates',
     description: 'Explore our collection of pre-built templates with complete layouts and ready-to-use components.',
     kind: 'templates',
-  },
-  '/showcases': {
-    title: 'Showcases',
-    description:
-      'Curated page compositions built from existing Watermelon UI blocks. Explore realistic section stacks and contribute your own by pull request.',
-    kind: 'showcases',
   },
   '/installation': {
     title: 'Installation',

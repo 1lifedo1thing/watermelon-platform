@@ -170,7 +170,7 @@ export const freePages: SeoPage[] = [
           '[Blocks](/blocks): full page sections like hero sections, pricing, footers, and login pages.',
           '[Animated components](/animated-components): motion-rich interactions.',
           '[Dashboards](/dashboards): complete admin and SaaS screens.',
-          '[Showcases](/showcases): full pages composed from blocks.',
+          '[Templates](/templates): full landing pages composed from blocks.',
         ],
       },
       {
@@ -289,7 +289,7 @@ export const freePages: SeoPage[] = [
     ],
     intro: [
       'You can build a complete React landing page for free by stacking Watermelon UI blocks: a hero, a features section, pricing, testimonials, an FAQ, a call to action, and a footer. Every section is written in React with Tailwind CSS, is MIT licensed, and works in Next.js or Vite.',
-      'If you want to start from a finished page, open a [template](/templates) or a [showcase](/showcases), which are full landing pages composed from these same blocks.',
+      'If you want to start from a finished page, open a [template](/templates), which is a full landing page composed from these same blocks.',
     ],
     sections: [
       {
@@ -309,11 +309,7 @@ export const freePages: SeoPage[] = [
         },
       },
       {
-        heading: 'Full page templates and showcases',
-        catalog: { kind: 'showcases' },
-      },
-      {
-        heading: 'Templates',
+        heading: 'Full page templates',
         catalog: { kind: 'templates' },
       },
     ],
@@ -326,7 +322,7 @@ export const freePages: SeoPage[] = [
       {
         question: 'Is there a free shadcn landing page template?',
         answer:
-          'Yes. The templates and showcases on Watermelon UI use shadcn conventions and are free under the MIT license.',
+          'Yes. The templates on Watermelon UI use shadcn conventions and are free under the MIT license.',
       },
     ],
     related: [

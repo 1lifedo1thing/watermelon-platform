@@ -75,7 +75,7 @@ export default function DevelopersPage() {
               that need structured access to the catalog without scraping the UI
               manually. The current server is read-only and exposes catalog
               helpers so an agent can inspect components, blocks, templates,
-              dashboards, and showcases from the source content. Run it locally
+              and dashboards from the source content. Run it locally
               with <code>bun run mcp</code> from the repository root.
             </DocText>
           </DocCard>

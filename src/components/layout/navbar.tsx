@@ -8,7 +8,6 @@ import { CommandPalette } from '@/components/layout/command-palette';
 import { animatedComponentMetadata } from '@/data/animated-components-metadata';
 import { dashboardMetadata } from '@/data/dashboard-metadata';
 import { blockMetadata, blockCategories } from '@/data/block-metadata';
-import { showcaseMetadata } from '@/data/showcase-metadata';
 import { uiCategories } from '@/data/components-registry';
 import { motion } from 'motion/react';
 import { GlobalCssInput } from './global-css-input';
@@ -21,7 +20,6 @@ const routeConfig: Record<string, { label: string; href?: string }> = {
 
   '/installation': { label: 'Installation' },
   '/framework-support': { label: 'Framework Support' },
-  '/showcases': { label: 'Showcases' },
   '/developers': { label: 'Developers' },
   '/about': { label: 'About' },
   '/contact': { label: 'Contact' },
@@ -94,17 +92,6 @@ export const Navbar = () => {
       if (item) {
         return [
           { label: 'Dashboards', href: '/dashboards' },
-          { label: item.name },
-        ];
-      }
-    }
-
-    if (path.startsWith('/showcase/')) {
-      const slug = params.slug || path.split('/').pop();
-      const item = showcaseMetadata.find((showcase) => showcase.slug === slug);
-      if (item) {
-        return [
-          { label: 'Showcases', href: '/showcases' },
           { label: item.name },
         ];
       }

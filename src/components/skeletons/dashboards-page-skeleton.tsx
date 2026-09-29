@@ -25,15 +25,6 @@ export function DashboardsPageSkeleton({
   );
 }
 
-export function ShowcasesPageSkeleton() {
-  return (
-    <DashboardsPageSkeleton
-      title="Showcases"
-      description="Realistic page compositions built from existing Watermelon blocks. Each one is intentionally PR-friendly so the community can add more without inventing a new template system."
-    />
-  );
-}
-
 export function TemplatesPageSkeleton() {
   return (
     <DashboardsPageSkeleton

@@ -14,7 +14,6 @@
  *   - Templates:           /template/:slug
  *   - Blocks:              /block/:slug
  *                          /blocks/:category
- *   - Showcases:           /showcase/:slug
  *   - SEO pages:           /alternatives, /compare, /free, /guides (src/data/seo)
  *
  * Run via `bun run sitemap` (also runs automatically as part of `bun run build`).
@@ -103,7 +102,6 @@ const staticRoutes: RouteEntry[] = [
   '/dashboards',
   '/templates',
   '/blocks',
-  '/showcases',
   '/installation',
   '/framework-support',
   '/developers',
@@ -132,7 +130,6 @@ const catalogLinks: Record<string, CatalogLink[]> = {
   blocks: [],
   dashboards: [],
   templates: [],
-  showcases: [],
 };
 
 // ── Animated components — contents/registry/*.mdx ─────────────────────────────
@@ -216,16 +213,6 @@ const catalogLinks: Record<string, CatalogLink[]> = {
       path: `/blocks/${encodeURIComponent(category)}`,
       lastmod: today,
     });
-  }
-}
-
-// ── Showcases — contents/showcases/*.mdx ─────────────────────────────────────
-{
-  for (const file of findMdxFiles(path.join(CONTENTS_DIR, 'showcases'))) {
-    const { slug, title } = matter(fs.readFileSync(file, 'utf-8')).data;
-    if (!slug || !title) continue;
-    routes.push({ path: `/showcase/${slug}`, lastmod: fileDate(file) });
-    catalogLinks.showcases.push({ title: String(title), href: `/showcase/${slug}` });
   }
 }
 

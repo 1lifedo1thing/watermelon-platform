@@ -1787,16 +1787,6 @@ export const catalogLinks: Record<CatalogListKind, CatalogLink[]> = {
       "title": "Landing Page 01",
       "href": "/template/landing-01"
     }
-  ],
-  "showcases": [
-    {
-      "title": "Product Waitlist Funnel",
-      "href": "/showcase/product-waitlist-funnel"
-    },
-    {
-      "title": "SaaS Launch Stack",
-      "href": "/showcase/saas-launch-stack"
-    }
   ]
 };
 

@@ -11,6 +11,14 @@ updates:
       # before lifting this.
       - dependency-name: "@vercel/og"
         versions: [">=1.0.0"]
+      # typescript-eslint does not support TypeScript 7 yet ("typescript-eslint
+      # does not support TS 7.0"), so lint and the build fail. Lift this once it does.
+      - dependency-name: "typescript"
+        versions: [">=7.0.0"]
+      # lucide-react 1.x removed brand icons (Github, Twitter, Chrome, ...) used
+      # by 15 blocks and components. Moving needs icon replacements, not a bump.
+      - dependency-name: "lucide-react"
+        versions: [">=1.0.0"]
     groups:
       frontend-dependencies:
         patterns:

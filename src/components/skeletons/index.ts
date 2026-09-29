@@ -3,7 +3,6 @@ export { ComponentPageSkeleton } from "./component-page-skeleton";
 export { DocPageSkeleton } from "./doc-page-skeleton";
 export {
   DashboardsPageSkeleton,
-  ShowcasesPageSkeleton,
   TemplatesPageSkeleton,
 } from "./dashboards-page-skeleton";
 export { BlocksPageSkeleton } from "./blocks-page-skeleton";

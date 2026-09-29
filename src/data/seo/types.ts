@@ -13,8 +13,7 @@ export type CatalogListKind =
   | 'animated-components'
   | 'blocks'
   | 'dashboards'
-  | 'templates'
-  | 'showcases';
+  | 'templates';
 
 export interface SeoTable {
   columns: string[];

@@ -1,6 +1,7 @@
+import { FaSlack } from 'react-icons/fa';
 
 import type { SVGProps } from 'react';
-import { SiSlack } from 'react-icons/si';
+
 const Cloudflare = (props: SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 256 116" preserveAspectRatio="xMidYMid">
     <path
@@ -143,7 +144,7 @@ const integrations = [
     title: 'Slack',
     description:
       'Communicate instantly and keep everyone aligned in real time.',
-    icon: SiSlack,
+    icon: FaSlack,
   },
   {
     title: 'Stripe',

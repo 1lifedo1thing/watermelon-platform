@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { socialImageFor } from '@/data/seo/og';
+import { SITE_URL } from '@/data/seo/site';
 
 interface SEOHeadProps {
   title: string;
@@ -28,15 +30,24 @@ export function SEOHead({
   noindex = false,
 }: SEOHeadProps) {
   const fullTitle = title.includes('Watermelon UI') ? title : `${title} | Watermelon UI`;
-  const envSiteUrl = (import.meta as any).env?.VITE_SITE_URL as string | undefined;
-  const siteUrl = (envSiteUrl || "https://ui.watermelon.sh").replace(/\/$/, "");
-  const currentPath = typeof window !== "undefined"
-    ? `${window.location.pathname}${window.location.search}`
-    : "";
+  // Always the production domain. A VITE_SITE_URL set in a build environment
+  // (Cloudflare Workers Builds had the workers.dev URL) must never leak into
+  // canonical, og:url, or share image URLs.
+  const siteUrl = SITE_URL;
+  // Path only: query strings (?ref=, utm_*) must not become part of the canonical.
+  const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
   const absoluteUrl = canonical || `${siteUrl}${currentPath}`;
   const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
   const shareImage = socialImageFor(pathname, image);
   const absoluteImage = shareImage.startsWith('http') ? shareImage : `${siteUrl}${shareImage}`;
+
+  // index.html ships static head tags (marked data-seo) that the Worker fills
+  // in per route for crawlers that skip JavaScript. Under React 19,
+  // react-helmet-async renders its own tags without replacing those, so drop
+  // the static copies once this page's tags are in place.
+  useEffect(() => {
+    document.head.querySelectorAll('[data-seo]').forEach((element) => element.remove());
+  }, []);
 
   return (
     <Helmet>

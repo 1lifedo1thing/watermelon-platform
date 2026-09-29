@@ -24,7 +24,6 @@ bun run build
 - improve docs and contributor workflows
 - add or refine animated components
 - add or refine blocks, dashboards, or templates
-- add or refine showcase compositions
 - improve accessibility, performance, or SEO
 
 For larger feature work, please open an issue or discussion first so effort does not drift.
@@ -48,13 +47,6 @@ For larger feature work, please open an issue or discussion first so effort does
 1. Create or update files under `src/data/contents/dashboards/<slug>/`.
 2. Add or update `<slug>.mdx` in that same folder.
 3. Keep dashboard-specific code colocated with the entry.
-
-### Showcases
-
-1. Add a new MDX file under `src/data/contents/showcases/`.
-2. Define the `slug`, `title`, `description`, `tags`, and ordered `sections` in frontmatter.
-3. Reference existing blocks through `blockSlug` so compositions stay source-backed and easy to review.
-4. Keep each showcase realistic and useful as a compositional example, not just a random stack of sections.
 
 ### Templates
 

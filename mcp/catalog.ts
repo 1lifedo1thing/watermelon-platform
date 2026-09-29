@@ -7,7 +7,6 @@ export const catalogKinds = [
   'blocks',
   'dashboards',
   'templates',
-  'showcases',
 ] as const;
 
 export type CatalogKind = (typeof catalogKinds)[number];
@@ -192,7 +191,7 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'search',
     {
-      description: 'Search the complete Watermelon UI catalog across components, animated components, blocks, dashboards, templates, and showcases.',
+      description: 'Search the complete Watermelon UI catalog across components, animated components, blocks, dashboards, and templates.',
       inputSchema: z.object({
         query: z.string().min(1).describe('Natural-language UI need, such as "animated pricing card".'),
         kinds: z.array(z.enum(catalogKinds)).optional(),
