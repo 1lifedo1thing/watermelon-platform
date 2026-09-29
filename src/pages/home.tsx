@@ -137,7 +137,7 @@ export default function HomePage() {
           viewAllUrl="/animated-components"
         >
           {registry.map((item) => (
-            <div key={item.slug} className="w-[280px] sm:w-[320px] shrink-0 snap-start">
+            <div key={item.slug} className="w-[300px] sm:w-[380px] lg:w-[420px] shrink-0 snap-start">
               <RegistryCard
                 item={item}
                 onClick={(clickedItem) => setSelectedItem(clickedItem)}
@@ -161,7 +161,7 @@ export default function HomePage() {
                 to={`/components/${cat.slug}`}
                 id={`ui-category-${cat.slug}`}
                 className={cn(
-                  'group relative block cursor-pointer no-underline w-[280px] sm:w-[320px] shrink-0 snap-start',
+                  'group relative block cursor-pointer no-underline w-[300px] sm:w-[380px] lg:w-[420px] shrink-0 snap-start',
                   'rounded-4xl p-2',
                   'bg-gray-100',
                   'dark:border-0 dark:bg-neutral-800',
@@ -222,7 +222,7 @@ export default function HomePage() {
               to={`/blocks/${cat.slug}`}
               id={`block-category-${cat.slug}`}
               className={cn(
-                'group relative block cursor-pointer no-underline w-[280px] sm:w-[320px] shrink-0 snap-start',
+                'group relative block cursor-pointer no-underline w-[300px] sm:w-[380px] lg:w-[420px] shrink-0 snap-start',
                 'rounded-4xl p-2',
                 'bg-gray-100',
                 'dark:border-0 dark:bg-neutral-800',
@@ -281,7 +281,7 @@ export default function HomePage() {
           viewAllUrl="/dashboards"
         >
           {dashboards.map((item) => (
-            <div key={item.slug} className="w-[300px] sm:w-[340px] shrink-0 snap-start">
+            <div key={item.slug} className="w-[320px] sm:w-[440px] lg:w-[500px] shrink-0 snap-start">
               <DashboardCard
                 item={item}
                 onClick={(clicked) => {
@@ -301,7 +301,7 @@ export default function HomePage() {
           viewAllUrl="/templates"
         >
           {templates.map((item) => (
-            <div key={item.slug} className="w-[300px] sm:w-[340px] shrink-0 snap-start">
+            <div key={item.slug} className="w-[320px] sm:w-[440px] lg:w-[500px] shrink-0 snap-start">
               <DashboardCard
                 item={item as any}
                 onClick={(clicked) => {
