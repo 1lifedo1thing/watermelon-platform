@@ -248,11 +248,18 @@ export async function generateShadcnRegistry(
     ),
   );
 
+  // The catalog lists items without file contents: the shadcn registry
+  // directory requires that `files` in registry.json carry no `content`
+  // (https://ui.shadcn.com/docs/registry/registry-index). Each item's own
+  // <name>.json keeps its content, which is what `shadcn add` downloads.
   const manifest = {
     $schema: 'https://ui.shadcn.com/schema/registry.json',
     name: 'watermelon',
     homepage: 'https://ui.watermelon.sh',
-    items,
+    items: items.map((item) => ({
+      ...item,
+      files: item.files?.map(({ content: _content, ...file }) => file),
+    })),
   };
 
   const serialisedManifest = `${JSON.stringify(manifest, null, 2)}\n`;
