@@ -50,6 +50,32 @@ function findMdxFiles(dir: string): string[] {
   return out;
 }
 
+/**
+ * CI clones are often shallow (GitHub Actions and Cloudflare Workers Builds
+ * both default to it). With one commit of history, every file's "last commit"
+ * is the same, so every <lastmod> would be the build date. Fetch full history
+ * first; if that fails, keep going with the dates we have.
+ */
+function ensureFullHistory() {
+  try {
+    const shallow = execFileSync('git', ['rev-parse', '--is-shallow-repository'], {
+      cwd: process.cwd(),
+      encoding: 'utf-8',
+    }).trim();
+    if (shallow !== 'true') return;
+    execFileSync('git', ['fetch', '--unshallow', '--quiet'], {
+      cwd: process.cwd(),
+      stdio: 'ignore',
+      timeout: 120_000,
+    });
+    console.log('Fetched full git history for accurate sitemap dates.');
+  } catch {
+    console.warn('Could not fetch full git history; sitemap dates may all be recent.');
+  }
+}
+
+ensureFullHistory();
+
 /** File last-modified date as YYYY-MM-DD (real <lastmod>, not the build date). */
 function fileDate(file: string): string {
   try {
