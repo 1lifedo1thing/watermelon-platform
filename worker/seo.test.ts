@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'bun:test';
 import {
   seoIndexPages,
@@ -226,6 +227,21 @@ describe('route SEO in the Worker', () => {
     expect(html).toContain('<link rel="canonical" href="https://ui.watermelon.sh/components/accordion" />');
     expect(html).toContain('<title>React Accordion Component, Free shadcn Accordion | Watermelon UI</title>');
     expect(html).not.toContain('href="https://ui.watermelon.sh/" />');
+  });
+
+  it('rewrites the real index.html shell, including data-seo marked tags', async () => {
+    const realShell = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+    const realEnv = {
+      ASSETS: { fetch: () => Promise.resolve(new Response(realShell, { headers: { 'Content-Type': 'text/html' } })) },
+    };
+    const html = await (await siteWorker.fetch(new Request('https://ui.watermelon.sh/components/tabs'), realEnv)).text();
+    const seo = resolveRouteSeo('/components/tabs')!;
+    expect(html).toContain('<link rel="canonical" href="https://ui.watermelon.sh/components/tabs" data-seo />');
+    expect(html).toContain('<meta property="og:url" content="https://ui.watermelon.sh/components/tabs" data-seo />');
+    expect(html).toContain(`<title data-seo>${seo.title}</title>`);
+    expect(html).toContain(`content="${seo.description}" data-seo />`);
+    expect(html).not.toContain('Premium React Components, Dashboards');
+    expect(html).not.toContain('href="https://ui.watermelon.sh/" data-seo');
   });
 
   it('keeps hand-written agent pages but gives them their own canonical', async () => {

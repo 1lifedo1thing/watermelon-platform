@@ -53,7 +53,7 @@
     "hugeicons-react": "^0.4.0",
     "input-otp": "^1.5.0",
     "little-date": "^1.2.1",
-    "lucide-react": "^1.48.0",
+    "lucide-react": "^0.563.0",
     "matter-js": "^0.20.0",
     "media-chrome": "^4.19.2",
     "motion": "^13.4.4",
@@ -110,7 +110,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^6.0.0",
-    "typescript": "~7.0.2",
+    "typescript": "~6.0.3",
     "typescript-eslint": "^8.70.1",
     "vite": "^8.3.1"
   },
