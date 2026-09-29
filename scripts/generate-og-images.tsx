@@ -11,7 +11,7 @@ import fs from 'fs';
 import path from 'path';
 import { ImageResponse } from '@vercel/og';
 import { seoIndexPages, seoKindMeta, seoPagePath, seoPages } from '../src/data/seo';
-import { blockCategorySeo, componentCategorySeo } from '../src/data/seo/catalog-meta';
+import { animatedCategorySeo, blockCategorySeo, componentCategorySeo } from '../src/data/seo/catalog-meta';
 import { catalogLinks } from '../src/data/seo/catalog-links.generated';
 import { ogImageFileName } from '../src/data/seo/og';
 
@@ -77,12 +77,15 @@ const cards: Card[] = [
     };
   }),
   ...[...new Set(catalogLinks['animated-components'].map((a) => a.category).filter(Boolean) as string[])].map(
-    (category) => ({
-      path: `/animated-components/category/${category}`,
-      eyebrow: 'Animated components',
-      title: `${titleCase(category)} Components`,
-      description: `Animated ${titleCase(category).toLowerCase()} components for React, built with Motion and Tailwind CSS.`,
-    }),
+    (category) => {
+      const seo = animatedCategorySeo(category);
+      return {
+        path: `/animated-components/category/${category}`,
+        eyebrow: 'Animated components',
+        title: seo.h1,
+        description: seo.description,
+      };
+    },
   ),
   ...[
     ['/home', 'Catalog', 'React components, dashboards, and blocks'],

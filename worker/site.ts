@@ -501,7 +501,7 @@ export default {
       );
     }
 
-    if (pathname.startsWith('/api/') && pathname !== '/api/og') {
+    if (pathname.startsWith('/api/')) {
       return apiError(
         404,
         'api_not_found',

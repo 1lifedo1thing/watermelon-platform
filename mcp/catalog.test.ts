@@ -8,9 +8,12 @@ import {
 } from './catalog';
 
 describe('Watermelon MCP catalog', () => {
-  it('indexes the complete 850-example catalog', () => {
-    expect(catalog.components).toHaveLength(516);
-    expect(Object.values(catalog).flat()).toHaveLength(850);
+  // Lower bounds, not exact counts, so adding components never breaks CI but a
+  // generator regression that drops entries still fails.
+  it('indexes the complete catalog', () => {
+    expect(catalog.components.length).toBeGreaterThanOrEqual(516);
+    expect(Object.values(catalog).flat().length).toBeGreaterThanOrEqual(850);
+    for (const entries of Object.values(catalog)) expect(entries.length).toBeGreaterThan(0);
   });
 
   it('searches across catalog kinds by natural-language terms', () => {

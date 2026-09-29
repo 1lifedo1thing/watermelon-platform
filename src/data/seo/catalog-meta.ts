@@ -124,6 +124,46 @@ export function blockDetailSeo(block: {
   };
 }
 
+// Animated component categories, keyed by the raw category in the content.
+const animatedTerms: Record<string, { noun: string; blurb: string }> = {
+  accordian: { noun: 'Accordion', blurb: 'expanding sections with smooth height animations' },
+  action: { noun: 'Action', blurb: 'action bars and quick actions' },
+  buttons: { noun: 'Button', blurb: 'hover, loading, and success states' },
+  cards: { noun: 'Card', blurb: 'expandable, swipeable, and stacked cards' },
+  carousel: { noun: 'Carousel', blurb: 'sliders with spring physics' },
+  'choice-chips': { noun: 'Chip', blurb: 'selectable chips and filters' },
+  dialog: { noun: 'Dialog', blurb: 'modals with shared layout transitions' },
+  disclosure: { noun: 'Disclosure', blurb: 'expanding menus and reveal panels' },
+  dropdown: { noun: 'Dropdown', blurb: 'menus that open with motion' },
+  filters: { noun: 'Filter', blurb: 'animated filter bars' },
+  inputs: { noun: 'Input', blurb: 'text fields and pickers with feedback' },
+  interaction: { noun: 'Interaction', blurb: 'drag, reorder, and gesture interactions' },
+  lists: { noun: 'List', blurb: 'reorderable and expanding lists' },
+  map: { noun: 'Map', blurb: 'interactive animated maps' },
+  marketing: { noun: 'Marketing', blurb: 'landing page effects' },
+  media: { noun: 'Media Player', blurb: 'audio and video controls' },
+  'micro-interaction': { noun: 'Micro-Interaction', blurb: 'feedback on buttons, toggles, and inputs' },
+  navigation: { noun: 'Navigation', blurb: 'docks, tab bars, and menus' },
+  pagination: { noun: 'Pagination', blurb: 'page indicators with sliding motion' },
+  popover: { noun: 'Popover', blurb: 'popovers that morph from their trigger' },
+  scheduler: { noun: 'Scheduler', blurb: 'calendar and booking widgets' },
+  sliders: { noun: 'Slider', blurb: 'range and value sliders' },
+  tabs: { noun: 'Tabs', blurb: 'sliding indicators and continuous tabs' },
+  toggle: { noun: 'Toggle', blurb: 'switches with spring motion' },
+  tooltip: { noun: 'Tooltip', blurb: 'tooltips that animate in context' },
+  widgets: { noun: 'Widget', blurb: 'compact animated dashboard widgets' },
+};
+
+export function animatedCategorySeo(category: string, items?: number): CategorySeo {
+  const t = animatedTerms[category.toLowerCase()];
+  const noun = t?.noun ?? category.charAt(0).toUpperCase() + category.slice(1);
+  return {
+    title: `React Animated ${noun} Components (Motion + Tailwind)`,
+    h1: `Animated ${noun} Components`,
+    description: `${freeCount(items)} animated React ${noun.toLowerCase()} components built with Motion and Tailwind CSS${t ? `, for ${t.blurb}` : ''}. Copy the code or install with the shadcn CLI.`,
+  };
+}
+
 export function animatedDetailSeo(component: { title: string }): Pick<CategorySeo, 'title'> {
   return { title: `${component.title}: Animated React Component` };
 }

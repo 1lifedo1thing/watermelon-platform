@@ -176,6 +176,19 @@ describe('route SEO in the Worker', () => {
     expect(duplicates).toEqual([]);
   });
 
+  it('gives every route a unique description', () => {
+    const seen = new Map<string, string>();
+    const duplicates: string[] = [];
+    for (const route of knownRoutes) {
+      const seo = resolveRouteSeo(route);
+      if (!seo) continue;
+      const existing = seen.get(seo.description);
+      if (existing) duplicates.push(`${existing} and ${route}`);
+      seen.set(seo.description, route);
+    }
+    expect(duplicates).toEqual([]);
+  });
+
   it('serves SEO pages with their own title, canonical, JSON-LD, and body', async () => {
     const response = await siteWorker.fetch(
       new Request('https://ui.watermelon.sh/alternatives/shadcn-ui'),

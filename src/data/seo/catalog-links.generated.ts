@@ -495,7 +495,7 @@ export const catalogLinks: Record<CatalogListKind, CatalogLink[]> = {
       "category": "cards"
     },
     {
-      "title": "pagination",
+      "title": "Pagination",
       "href": "/animated-components/pagination",
       "category": "pagination"
     },
