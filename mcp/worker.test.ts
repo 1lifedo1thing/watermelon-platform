@@ -1,3 +1,4 @@
+import { catalog } from './catalog.generated';
 import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import mcpWorker from './worker';
@@ -24,7 +25,9 @@ describe('mcp worker', () => {
     expect(body.name).toBe('watermelon-mcp');
     expect(body.endpoint).toBe('/mcp');
     expect(body.status).toBe('https://ui.watermelon.sh/developers/status');
-    expect(body.totalEntries).toBe(850);
+    // Count from the generated catalog so adding components never breaks this test.
+    const expectedTotal = Object.values(catalog).reduce((sum, entries) => sum + entries.length, 0);
+    expect(body.totalEntries).toBe(expectedTotal);
     expect(body.tools).toContain('compose_page');
     expect(body.build.shortSha).toBeTruthy();
   });

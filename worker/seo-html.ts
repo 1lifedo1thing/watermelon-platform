@@ -19,6 +19,7 @@ import {
   type SeoSection,
 } from '../src/data/seo';
 import {
+  animatedCategorySeo,
   animatedDetailSeo,
   blockCategorySeo,
   blockDetailSeo,
@@ -277,12 +278,13 @@ function catalogRoute(pathname: string): RouteSeo | null {
     const items = catalogLinks['animated-components'].filter((i) => i.category === category);
     if (!items.length) return null;
     const label = titleCase(category);
+    const seo = animatedCategorySeo(category, items.length);
     return catalogPage({
       pathname,
       kind: 'animated-components',
-      title: `${label} Components`,
-      h1: `${label} Components`,
-      description: `Browse our collection of ${label} components. High-quality, customizable React components for your next project.`,
+      title: seo.title,
+      h1: seo.h1,
+      description: seo.description,
       crumbs: [home, listing['animated-components'], { name: label, path: pathname }],
       entries: items,
     });
@@ -422,7 +424,7 @@ function staticRoute(pathname: string): RouteSeo | null {
       : kind === 'animated-components'
         ? [...new Set(catalogLinks['animated-components'].map((a) => a.category).filter(Boolean) as string[])]
             .sort()
-            .map((c) => ({ title: `${titleCase(c)} Components`, href: `/animated-components/category/${encodeURIComponent(c)}` }))
+            .map((c) => ({ title: animatedCategorySeo(c).h1, href: `/animated-components/category/${encodeURIComponent(c)}` }))
         : catalogLinks[kind];
   return catalogPage({
     pathname,

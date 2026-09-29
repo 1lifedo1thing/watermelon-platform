@@ -5,6 +5,7 @@ import { RegistryCard } from '@/components/registry/registry-card';
 import { ComponentModal } from '@/components/registry/component-modal';
 import { SEOHead } from '@/components/seo-head';
 import { RelatedResources } from '@/components/seo/related-resources';
+import { animatedCategorySeo } from '@/data/seo/catalog-meta';
 import { CatalogPageHeader } from '@/components/layout/catalog-page-header';
 
 const ITEMS_PER_PAGE = 18;
@@ -49,7 +50,8 @@ export default function AnimatedCategoryPage() {
   }, [hasMore, filteredItems.length]);
 
   const title = category ? category.charAt(0).toUpperCase() + category.slice(1) : 'Category';
-  const description = `Browse our collection of ${title.toLowerCase()} animated components. High-quality, customizable React components for your next project.`;
+  const seo = animatedCategorySeo(category ?? '', filteredItems.length);
+  const description = seo.description;
 
   if (filteredItems.length === 0) {
     return (
@@ -63,13 +65,13 @@ export default function AnimatedCategoryPage() {
   return (
     <>
       <SEOHead
-        title={`${title} Components`}
-        description={`Browse our collection of ${title} components. High-quality, customizable React components for your next project.`}
+        title={seo.title}
+        description={seo.description}
         category={title}
       />
 
       <CatalogPageHeader
-        title={title}
+        title={seo.h1}
         description={description}
       />
       <div className="flex flex-col gap-6 md:gap-12 pb-16 px-4 md:px-6 lg:px-8 mt-4">
