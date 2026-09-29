@@ -337,6 +337,16 @@ export function AppSidebar() {
     { title: 'Changelog', url: '/changelog', icon: Clock01Icon },
   ];
 
+  // ── Resources — free collections, alternatives, and guides ──
+  const resourceItems = [
+    { title: 'Free Collections', url: '/free' },
+    { title: 'Alternatives', url: '/alternatives' },
+    { title: 'Guides', url: '/guides' },
+  ].map((item) => ({ ...item, isActive: location.pathname === item.url }));
+  const isResourcePath = /^\/(free|alternatives|compare|guides)(\/|$)/.test(
+    location.pathname,
+  );
+
   // ── Legal links — shown in a collapsible in the footer ──
   const legalLinks = [
     { title: 'About', url: '/about' },
@@ -540,6 +550,14 @@ export function AppSidebar() {
               icon={Layout01Icon}
               items={[]}
               isAnyChildActive={location.pathname.startsWith('/template')}
+            />
+            {/* Resources — free collections, alternatives, and guides */}
+            <ExploreCollapsibleItem
+              title="Resources"
+              titleUrl="/free"
+              icon={GridIcon}
+              items={resourceItems}
+              isAnyChildActive={isResourcePath}
             />
           </SidebarMenu>
         </SidebarGroup>

@@ -7,6 +7,7 @@ import { CodeDialog } from "@/components/registry/code-dialog";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { SourceCodeIcon } from "@/lib/hugeicons";
 import { CatalogPageHeader } from "@/components/layout/catalog-page-header";
+import { componentCategorySeo } from "@/data/seo/catalog-meta";
 
 // ─── Loading fallback ─────────────────────────────────────────────────────────
 
@@ -71,6 +72,7 @@ export default function ComponentCategoryPage() {
 
   const label = meta?.label ?? (category.charAt(0).toUpperCase() + category.slice(1));
   const description = meta?.description ?? `${label} component variants.`;
+  const seo = componentCategorySeo(category, variants.length);
 
   if (!exists) {
     return (
@@ -89,12 +91,12 @@ export default function ComponentCategoryPage() {
   return (
     <>
       <SEOHead
-        title={label}
-        description={description}
+        title={seo?.title ?? label}
+        description={seo?.description ?? description}
         category="Components"
       />
 
-      <CatalogPageHeader title={label} description={description} />
+      <CatalogPageHeader title={seo?.h1 ?? label} description={description} />
 
       <div className="flex flex-col gap-6 md:gap-12 mb-12 px-4 md:px-6 lg:px-8 mt-4 md:mt-8">
 
