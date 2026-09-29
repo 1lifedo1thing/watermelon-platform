@@ -8,6 +8,8 @@ import {
 } from '../src/data/seo';
 import { inlineHrefs } from '../src/data/seo/inline';
 import { seoPageSchemas } from '../src/data/seo/schema';
+import { ogImageRoutes } from '../src/data/seo/og-images.generated';
+import { socialImageFor } from '../src/data/seo/og';
 import { knownRoutes } from './routes.generated';
 import { resolveRouteSeo } from './seo-html';
 import siteWorker from './site';
@@ -23,6 +25,11 @@ const shell = `<!doctype html><html><head>
   content="Base title"
 />
 <meta name="twitter:title" content="Base title" />
+<meta property="og:image" content="https://ui.watermelon.sh/og-image.avif" />
+<meta
+  name="twitter:image"
+  content="https://ui.watermelon.sh/og-image.avif"
+/>
 </head><body><div id="agent-preload"></div></body></html>`;
 
 const mockEnv = {
@@ -134,6 +141,21 @@ describe('programmatic SEO content', () => {
   });
 });
 
+describe('share images', () => {
+  it('has a PNG card for every SEO page and hub', () => {
+    const routes = new Set<string>(ogImageRoutes);
+    for (const page of seoPages) expect(routes.has(seoPagePath(page))).toBe(true);
+    for (const index of seoIndexPages) expect(routes.has(index.path)).toBe(true);
+  });
+
+  it('never uses AVIF, which social networks do not show', () => {
+    expect(socialImageFor('/template/landing-01', 'https://assets.watermelon.sh/templates/landing-01.avif')).toBe('/og/default.png');
+    for (const route of knownRoutes) {
+      expect(resolveRouteSeo(route)?.ogImage ?? '').not.toMatch(/\.avif/);
+    }
+  });
+});
+
 describe('route SEO in the Worker', () => {
   it('resolves metadata for every sitemap route except hand-written pages', () => {
     const handWritten = new Set(['/', '/about', '/contact', '/privacy', '/terms', '/developers', '/developers/auth', '/developers/mcp', '/developers/status']);
@@ -170,6 +192,16 @@ describe('route SEO in the Worker', () => {
     expect(html).toContain('application/ld+json');
     expect(html).toContain(`<h1>${page.h1}</h1>`);
     expect(html).toContain('href="/free/react-components"');
+    expect(html).toContain('content="https://ui.watermelon.sh/og/alternatives-shadcn-ui.png"');
+    expect(html).not.toContain('og-image.avif');
+  });
+
+  it('uses a block preview image and a specific title on block pages', async () => {
+    const response = await siteWorker.fetch(new Request('https://ui.watermelon.sh/block/hero-3'), mockEnv);
+    const html = await response.text();
+    expect(html).toContain('<title>Hero Section 3: Free React &amp; Tailwind Hero Section Block | Watermelon UI</title>');
+    expect(html).not.toContain('Widgets are modular');
+    expect(html).toMatch(/property="og:image" content="https:\/\/assets\.watermelon\.sh\/[^"]+\.webp"/);
   });
 
   it('fixes the canonical on existing catalog pages', async () => {

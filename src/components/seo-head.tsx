@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { generateOgImageUrl } from '@/utils/seo';
+import { socialImageFor } from '@/data/seo/og';
 
 interface SEOHeadProps {
   title: string;
@@ -11,6 +11,7 @@ interface SEOHeadProps {
   schema?: string;
   ogImageAlt?: string;
   noindex?: boolean;
+  /** Kept for callers; share images now come from the route (src/data/seo/og.ts). */
   category?: string;
 }
 
@@ -25,7 +26,6 @@ export function SEOHead({
   schema,
   ogImageAlt,
   noindex = false,
-  category
 }: SEOHeadProps) {
   const fullTitle = title.includes('Watermelon UI') ? title : `${title} | Watermelon UI`;
   const envSiteUrl = (import.meta as any).env?.VITE_SITE_URL as string | undefined;
@@ -34,9 +34,9 @@ export function SEOHead({
     ? `${window.location.pathname}${window.location.search}`
     : "";
   const absoluteUrl = canonical || `${siteUrl}${currentPath}`;
-  const absoluteImage = image
-    ? (image.startsWith('http') ? image : `${siteUrl}${image}`)
-    : generateOgImageUrl({ title, description, category });
+  const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
+  const shareImage = socialImageFor(pathname, image);
+  const absoluteImage = shareImage.startsWith('http') ? shareImage : `${siteUrl}${shareImage}`;
 
   return (
     <Helmet>

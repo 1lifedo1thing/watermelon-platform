@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import { dashboards } from '@/data/dashboards';
 import { SEOHead } from '@/components/seo-head';
+import { dashboardDetailSeo } from '@/data/seo/catalog-meta';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ReloadIcon, ViewIcon, SourceCodeIcon, LaptopIcon, TabletIcon, SmartPhoneIcon } from '@/lib/hugeicons';
@@ -365,7 +366,7 @@ export default function DashboardPage() {
   return (
     <>
       <SEOHead
-        title={`${item.name} - Dashboard Template`}
+        title={dashboardDetailSeo({ title: item.name }).title}
         description={item.description}
         image={item.image}
         ogImageAlt={`${item.name} preview`}

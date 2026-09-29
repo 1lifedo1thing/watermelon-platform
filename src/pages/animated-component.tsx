@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { registry } from '@/data/animated-components-registry';
+import { animatedDetailSeo } from '@/data/seo/catalog-meta';
 import { SEOHead } from '@/components/seo-head';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -108,7 +109,7 @@ export default function AnimatedComponentPage() {
   return (
     <>
       <SEOHead
-        title={item.name}
+        title={animatedDetailSeo({ title: item.name }).title}
         description={item.description}
         image={item.image}
         category={item.category}

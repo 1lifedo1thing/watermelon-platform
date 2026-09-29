@@ -139,7 +139,7 @@ export const guidePages: SeoPage[] = [
       '/compare/shadcn-vs-aceternity-ui',
       '/compare/shadcn-vs-daisyui',
       '/compare/shadcn-vs-heroui',
-      '/free/react-components',
+      '/guides/shadcn-for-vue-svelte-angular',
     ],
     updated,
   },

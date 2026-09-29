@@ -2323,6 +2323,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ui.watermelon.sh/compare/shadcn-vs-ant-design</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ui.watermelon.sh/compare/shadcn-vs-bootstrap</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ui.watermelon.sh/compare/shadcn-vs-daisyui</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
@@ -2348,6 +2360,12 @@
   </url>
   <url>
     <loc>https://ui.watermelon.sh/compare/shadcn-vs-radix-ui</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ui.watermelon.sh/compare/shadcn-vs-tailwind-css</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -2713,6 +2731,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ui.watermelon.sh/guides/best-react-modal-library</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ui.watermelon.sh/guides/build-react-dashboard-fast</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
@@ -2725,6 +2749,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ui.watermelon.sh/guides/is-shadcn-free</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ui.watermelon.sh/guides/is-tailwind-ui-free</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
@@ -2732,6 +2762,24 @@
   </url>
   <url>
     <loc>https://ui.watermelon.sh/guides/react-component-mcp-server</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ui.watermelon.sh/guides/shadcn-alert-dialog-vs-dialog</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ui.watermelon.sh/guides/shadcn-for-vue-svelte-angular</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ui.watermelon.sh/guides/shadcn-sheet-vs-drawer</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

@@ -8,6 +8,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { SourceCodeIcon } from "@/lib/hugeicons";
 import { CatalogPageHeader } from "@/components/layout/catalog-page-header";
 import { componentCategorySeo } from "@/data/seo/catalog-meta";
+import { RelatedResources } from "@/components/seo/related-resources";
 
 // ─── Loading fallback ─────────────────────────────────────────────────────────
 
@@ -139,6 +140,8 @@ export default function ComponentCategoryPage() {
             ))}
           </div>
         </div>
+
+        <RelatedResources kind="components" />
       </div>
 
       {/* ─ Code dialog ─ */}

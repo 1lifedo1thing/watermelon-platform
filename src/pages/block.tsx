@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
 
 import { blocks } from '@/data/blocks';
+import { blockDetailSeo } from '@/data/seo/catalog-meta';
+import { sharedBlockDescriptionSlugs } from '@/data/seo/catalog-links.generated';
 import { SEOHead } from '@/components/seo-head';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -320,6 +322,15 @@ export default function BlockPage() {
   const isMobile = useIsMobile();
 
   const item = blocks.find((b) => b.slug === slug);
+  const seo = item
+    ? blockDetailSeo({
+        slug: item.slug,
+        title: item.name,
+        category: item.category,
+        description: item.description,
+        sharedDescription: sharedBlockDescriptionSlugs.includes(item.slug),
+      })
+    : null;
 
   // Load file codes
   useEffect(() => {
@@ -370,8 +381,9 @@ export default function BlockPage() {
   return (
     <>
       <SEOHead
-        title={`${item.name} - UI Block`}
-        description={item.description}
+        title={seo?.title ?? `${item.name} - UI Block`}
+        description={seo?.description ?? item.description}
+        image={item.image}
       />
 
       {/* ================= MOBILE ================= */}
@@ -382,11 +394,11 @@ export default function BlockPage() {
             <div className="text-xs text-muted-foreground flex gap-2 mb-2">
               <Link to="/blocks">Blocks</Link>
               <span>/</span>
-              <span className="text-foreground font-medium">{item.name}</span>
+              <span className="text-foreground font-medium">{seo?.h1 ?? item.name}</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-semibold">{item.name}</h1>
+              <h1 className="text-xl font-semibold">{seo?.h1 ?? item.name}</h1>
               {item.componentNumber && (
                 <span className="px-2 py-0.5 text-xs font-medium bg-muted text-muted-foreground rounded-sm">
                   {item.componentNumber}
@@ -394,7 +406,7 @@ export default function BlockPage() {
               )}
             </div>
             <p className="text-sm text-muted-foreground">
-              {item.description}
+              {seo?.description ?? item.description}
             </p>
           </div>
 

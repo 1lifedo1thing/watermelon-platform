@@ -229,6 +229,7 @@ async function injectAgentHtml(env: Env, pathname: string) {
     routeSeo?.canonical ??
     `https://ui.watermelon.sh${pathname === '/' ? '/' : pathname}`;
   const bodyHtml = routeSeo?.bodyHtml ?? renderMarkdownAsHtml(agentPage.markdown);
+  const ogImage = routeSeo?.ogImage ?? 'https://ui.watermelon.sh/og/default.png';
   const schemaTags = (routeSeo?.schemas ?? [])
     .map(
       (schema) =>
@@ -261,6 +262,10 @@ async function injectAgentHtml(env: Env, pathname: string) {
     .replace(
       /(<meta\s+(?:property="og:description"|name="twitter:description")\s+content=)"[^"]*"/g,
       `$1"${escapeAttribute(description)}"`,
+    )
+    .replace(
+      /(<meta\s+(?:property="og:image"|name="twitter:image")\s+content=)"[^"]*"/g,
+      `$1"${escapeAttribute(ogImage)}"`,
     )
     .replace('</head>', `${schemaTags}</head>`)
     .replace(

@@ -45,3 +45,6 @@ dist-ssr
 /skills/*
 !/skills/watermelon-ui/
 !/skills/watermelon-ui/SKILL.md
+
+# Generated at build time by scripts/generate-og-images.tsx
+public/og

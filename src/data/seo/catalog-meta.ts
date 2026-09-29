@@ -77,8 +77,9 @@ const blockTerms: Record<string, CategoryTerms> = {
   widget: { noun: 'Widget', plural: 'widgets', blurb: 'dashboard cards and compact tools' },
 };
 
-function count(n?: number) {
-  return n && n > 1 ? `${n} ` : '';
+/** "16 free" or "Free", to start a description. */
+function freeCount(n?: number) {
+  return n && n > 1 ? `${n} free` : 'Free';
 }
 
 export function componentCategorySeo(slug: string, variants?: number): CategorySeo | null {
@@ -87,8 +88,50 @@ export function componentCategorySeo(slug: string, variants?: number): CategoryS
   return {
     title: `React ${t.noun} Component, Free shadcn ${t.noun}`,
     h1: `React ${t.noun} Components`,
-    description: `${count(variants)}free React ${t.plural} built with Tailwind CSS and shadcn/ui conventions. Copy the code or install with the shadcn CLI. Great for ${t.blurb}.`,
+    description: `${freeCount(variants)} React ${t.plural} built with Tailwind CSS and shadcn/ui conventions. Copy the code or install with the shadcn CLI. Great for ${t.blurb}.`,
   };
+}
+
+/**
+ * Block detail pages. Block titles in the content are raw ("auth 08"), and
+ * many blocks reuse one category-wide description (some the wrong category's).
+ * `sharedDescription` marks those, and we write a specific one instead.
+ */
+export function blockDetailSeo(block: {
+  slug: string;
+  title: string;
+  category: string;
+  description: string;
+  sharedDescription: boolean;
+}): CategorySeo {
+  const t = blockTerms[block.category.toLowerCase()];
+  const number = block.slug.match(/-0*(\d+)$/)?.[1];
+  if (!t) {
+    return {
+      title: `${block.title} - UI Block`,
+      h1: block.title,
+      description: block.description,
+    };
+  }
+  const name = number ? `${t.noun} ${number}` : block.title;
+  const description = block.sharedDescription
+    ? `${name} is a free React ${t.noun.toLowerCase()} block built with Tailwind CSS. Preview it live, copy the code, or install it with the shadcn CLI. Made for ${t.blurb}.`
+    : block.description;
+  return {
+    title: `${name}: Free React & Tailwind ${t.noun} Block`,
+    h1: name,
+    description,
+  };
+}
+
+export function animatedDetailSeo(component: { title: string }): Pick<CategorySeo, 'title'> {
+  return { title: `${component.title}: Animated React Component` };
+}
+
+export function dashboardDetailSeo(dashboard: { title: string }): Pick<CategorySeo, 'title'> {
+  const base = dashboard.title.replace(/\s+dashboard$/i, '');
+  const name = base.charAt(0).toUpperCase() + base.slice(1);
+  return { title: `${name} Dashboard: Free React Dashboard Template` };
 }
 
 export function blockCategorySeo(slug: string, blocks?: number): CategorySeo | null {
@@ -97,6 +140,6 @@ export function blockCategorySeo(slug: string, blocks?: number): CategorySeo | n
   return {
     title: `Free React ${t.noun} Blocks, Tailwind & shadcn`,
     h1: `React ${t.noun} Blocks`,
-    description: `${count(blocks)}free React ${t.plural} built with Tailwind CSS, ready to copy or install with the shadcn CLI. Made for ${t.blurb}.`,
+    description: `${freeCount(blocks)} React ${t.plural} built with Tailwind CSS, ready to copy or install with the shadcn CLI. Made for ${t.blurb}.`,
   };
 }

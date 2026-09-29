@@ -4,6 +4,7 @@ import { registry, type RegistryItem } from '@/data/animated-components-registry
 import { RegistryCard } from '@/components/registry/registry-card';
 import { ComponentModal } from '@/components/registry/component-modal';
 import { SEOHead } from '@/components/seo-head';
+import { RelatedResources } from '@/components/seo/related-resources';
 import { CatalogPageHeader } from '@/components/layout/catalog-page-header';
 
 const ITEMS_PER_PAGE = 18;
@@ -89,6 +90,8 @@ export default function AnimatedCategoryPage() {
             <div className="h-5 w-5 border-2 border-muted-foreground/40 border-t-transparent rounded-full animate-spin" />
           </div>
         )}
+
+        <RelatedResources kind="animated-components" className="mx-4 md:mx-6 lg:mx-8" />
 
         <ComponentModal
           item={selectedItem}

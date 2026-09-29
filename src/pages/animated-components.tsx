@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { registry, allCategories } from '@/data/animated-components-registry';
+import { RelatedResources } from '@/components/seo/related-resources';
 import { SEOHead } from '@/components/seo-head';
 import { cn } from '@/lib/utils';
 import { CatalogPageHeader } from '@/components/layout/catalog-page-header';
@@ -163,6 +164,8 @@ export default function AnimatedComponentsPage() {
             ))}
           </div>
         </section>
+
+        <RelatedResources kind="animated-components" className="mx-4 md:mx-6 lg:mx-8" />
       </div>
     </>
   );
