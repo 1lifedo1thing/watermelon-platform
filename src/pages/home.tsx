@@ -11,7 +11,6 @@ import { ArrowRight01Icon } from '@/lib/hugeicons';
 // Data registries
 import { registry, type RegistryItem } from '@/data/animated-components-registry';
 import { uiCategories, uiRegistry } from '@/data/components-registry';
-import { showcases } from '@/data/showcases';
 import { blockCategories } from '@/data/block-metadata';
 import { dashboards, type DashboardItem } from '@/data/dashboards';
 import { templates } from '@/data/templates';
@@ -211,73 +210,7 @@ export default function HomePage() {
           })}
         </CategoryRow>
 
-        {/* 3. Showcases Row */}
-        <CategoryRow
-          id="showcases"
-          title="Showcases"
-          viewAllUrl="/showcases"
-        >
-          {showcases.map((showcase) => (
-            <Link
-              key={showcase.slug}
-              to={`/showcase/${showcase.slug}`}
-              className={cn(
-                'group block w-[300px] sm:w-[340px] shrink-0 snap-start rounded-4xl bg-gray-100 p-2 no-underline transition-all duration-300 dark:bg-neutral-800',
-                'shadow-[inset_0_1px_0_0_var(--color-gray-200),inset_0_2px_0_0_rgba(255,255,255,1)]',
-                'dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]',
-              )}
-            >
-              <div className="flex items-start justify-between gap-4 px-2 pb-3 pt-2">
-                <div className="space-y-1.5 min-w-0">
-                  <div className="flex flex-wrap gap-1.5">
-                    {showcase.featured ? (
-                      <span className="rounded-full bg-primary/12 px-2 py-0.5 text-[11px] font-medium text-primary">
-                        Featured
-                      </span>
-                    ) : null}
-                    <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
-                      {showcase.sections.length} sections
-                    </span>
-                  </div>
-                  <h3 className="text-base font-medium tracking-tight text-foreground truncate">
-                    {showcase.name}
-                  </h3>
-                  <p className="text-xs text-muted-foreground line-clamp-1">
-                    {showcase.description}
-                  </p>
-                </div>
-              </div>
-
-              <div className="relative aspect-video overflow-hidden rounded-[20px] border border-neutral-200/50 bg-muted dark:border-white/5">
-                <ResilientImage
-                  src={showcase.image}
-                  alt={`${showcase.name} preview`}
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                  decoding="async"
-                  fallback={
-                    <div className="absolute inset-0 flex items-center justify-center bg-white text-xs font-medium text-muted-foreground dark:bg-black">
-                      Showcase preview
-                    </div>
-                  }
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 flex flex-wrap gap-1.5 p-3">
-                  {showcase.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-white/15 bg-black/40 px-2 py-0.5 text-[11px] text-white/90 backdrop-blur-xs"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </CategoryRow>
-
-        {/* 4. UI Blocks Row */}
+        {/* 3. UI Blocks Row */}
         <CategoryRow
           id="blocks"
           title="UI Blocks"
@@ -341,7 +274,7 @@ export default function HomePage() {
           ))}
         </CategoryRow>
 
-        {/* 5. Dashboards Row */}
+        {/* 4. Dashboards Row */}
         <CategoryRow
           id="dashboards"
           title="Dashboards"
@@ -361,7 +294,7 @@ export default function HomePage() {
           ))}
         </CategoryRow>
 
-        {/* 6. Templates Row */}
+        {/* 5. Templates Row */}
         <CategoryRow
           id="templates"
           title="Templates"
