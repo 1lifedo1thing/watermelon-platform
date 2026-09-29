@@ -241,6 +241,12 @@ describe('route SEO in the Worker', () => {
     expect(html).toContain(`<title data-seo>${seo.title}</title>`);
     expect(html).toContain(`content="${seo.description}" data-seo />`);
     expect(html).not.toContain('Premium React Components, Dashboards');
+    // Social cards: X and others read these from the raw HTML.
+    expect(html).toMatch(/name="twitter:card"\s+content="summary_large_image"/);
+    expect(html).toMatch(/name="twitter:site"\s+content="@watermelonui"/);
+    expect(html).toMatch(/name="twitter:image"\s+content="https:\/\/ui\.watermelon\.sh\/og\/components-tabs\.png"/);
+    expect(html).toMatch(/property="og:image"\s+content="https:\/\/ui\.watermelon\.sh\/og\/components-tabs\.png"/);
+    expect(html).toMatch(new RegExp(`name="twitter:title"\\s+content="${seo.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`));
     expect(html).not.toContain('href="https://ui.watermelon.sh/" data-seo');
   });
 

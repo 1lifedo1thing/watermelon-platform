@@ -45,6 +45,7 @@ const SeoRoutePage = lazy(() => import('@/pages/seo-page'));
 
 // Programmatic SEO pages (content in src/data/seo). One component serves all.
 const seoRoutePaths = [
+  '/cli',
   '/alternatives',
   '/alternatives/:slug',
   '/compare/:slug',

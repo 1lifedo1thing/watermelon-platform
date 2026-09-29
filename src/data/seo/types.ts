@@ -37,6 +37,8 @@ export interface SeoFaq {
 export interface SeoPage {
   kind: SeoPageKind;
   slug: string;
+  /** Optional top-level URL (e.g. /cli) instead of /<kind base>/<slug>. */
+  path?: string;
   /** Title without the " | Watermelon UI" suffix. Must be unique. */
   title: string;
   /** 120 to 160 characters, unique, contains the primary keyword. */
@@ -64,6 +66,6 @@ export const seoKindMeta: Record<
   guide: { base: '/guides', label: 'Guides', indexPath: '/guides' },
 };
 
-export function seoPagePath(page: Pick<SeoPage, 'kind' | 'slug'>) {
-  return `${seoKindMeta[page.kind].base}/${page.slug}`;
+export function seoPagePath(page: Pick<SeoPage, 'kind' | 'slug' | 'path'>) {
+  return page.path ?? `${seoKindMeta[page.kind].base}/${page.slug}`;
 }

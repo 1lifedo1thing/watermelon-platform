@@ -59,6 +59,7 @@ import {
   CubeIcon,
   AuctionIcon,
   Component,
+  ComputerTerminal02Icon,
 } from '@hugeicons/core-free-icons';
 
 // ─── Imports: data registries (used to build nav category lists) ──────────────
@@ -326,13 +327,13 @@ export function AppSidebar() {
   }, [location.pathname, isMobile]);
 
   // ── Quickstart items — each has a unique icon per the Figma design ──
-  // NOTE: "Basic Usage" and "CLI" pages may not have routes yet; add them when ready.
+  // NOTE: "Basic Usage" does not have a route yet; add it when ready.
   const quickStartItems = [
     { title: 'Installation', url: '/installation', icon: HardDriveDownload },
+    { title: 'CLI', url: '/cli', icon: ComputerTerminal02Icon },
     // { title: "Basic Usage", url: "/basic-usage", icon: PlayCircleIcon },
     { title: 'Framework Support', url: '/framework-support', icon: CodeIcon },
     { title: 'Developers', url: '/developers', icon: CodeIcon },
-    // { title: "CLI", url: "/cli", icon: ComputerTerminal02Icon },
     { title: 'Changelog', url: '/changelog', icon: Clock01Icon },
   ];
 
