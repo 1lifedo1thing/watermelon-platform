@@ -67,9 +67,10 @@ export const guidePages: SeoPage[] = [
     ],
     related: [
       '/guides/ui-components-for-vibe-coding',
+      '/guides/shadcn-mcp-server',
+      '/cli',
       '/alternatives/shadcn-ui',
       '/free/react-components',
-      '/guides/copy-paste-vs-component-library',
     ],
     updated,
   },

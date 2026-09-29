@@ -3,6 +3,7 @@ import { comparePages } from './pages/compare';
 import { freePages } from './pages/free';
 import { guidePages } from './pages/guides';
 import { moreComparePages, moreGuidePages } from './pages/more';
+import { toolPages } from './pages/tools';
 import { seoKindMeta, seoPagePath, type CatalogListKind, type SeoPage, type SeoPageKind } from './types';
 
 export * from './types';
@@ -16,6 +17,7 @@ export const seoPages: SeoPage[] = [
   ...freePages,
   ...guidePages,
   ...moreGuidePages,
+  ...toolPages,
 ];
 
 export const seoPagesByPath: Record<string, SeoPage> = Object.fromEntries(
