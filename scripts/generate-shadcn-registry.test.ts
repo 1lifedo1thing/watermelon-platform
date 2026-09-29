@@ -61,6 +61,10 @@ describe('generateShadcnRegistry', () => {
     expect(catalog.name).toBe('watermelon');
     expect(catalog.$schema).toBe('https://ui.shadcn.com/schema/registry.json');
     expect(catalog.items).toHaveLength(manifest.items.length);
+    // Registry directory rule: catalog files must not carry `content`.
+    for (const item of catalog.items) {
+      for (const file of item.files ?? []) expect(file).not.toHaveProperty('content');
+    }
 
     const root = JSON.parse(
       await readFile(path.join(testDirectory, 'registry-root.json'), 'utf8'),
