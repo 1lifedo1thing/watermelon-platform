@@ -43,8 +43,8 @@ Watermelon's current public developer surfaces are read-only and do not require 
 - [Hosted MCP](https://mcp.watermelon.sh/): Remote MCP landing endpoint for Watermelon.
 
 ## Agent Notes
-- Watermelon MCP searches 850 source-backed examples. Prefer `search`, `get_inspiration`, `get_component`, `compose_page`, and `list_categories`.
-- The repository includes a tested installer for Codex, Claude, and Cursor; use the manual hosted endpoint setup until `@watermelon-ui/cli` is published to npm.
+- Watermelon MCP searches the full catalog of source-backed examples (800+). Prefer `search`, `get_inspiration`, `get_component`, `compose_page`, and `list_categories`.
+- Connect the hosted MCP server with `claude mcp add --transport http watermelon https://mcp.watermelon.sh/mcp` or `codex mcp add watermelon --url https://mcp.watermelon.sh/mcp`; no API key is needed.
 - The public site is useful for browsing and citation, while the public API is better when you need structured catalog data.
 - The repositories are the source of truth for contribution and source code.
 
@@ -79,7 +79,7 @@ Watermelon's current public developer surfaces are read-only and do not require 
 - [Free React Components for Tailwind CSS](https://ui.watermelon.sh/free/react-components): A free, open source React components library with 500+ Tailwind CSS components. Install with the shadcn CLI or copy the code. MIT licensed, no sign up.
 - [Free Tailwind Blocks for React](https://ui.watermelon.sh/free/tailwind-blocks): Free, open source Tailwind CSS blocks for React: hero sections, pricing, footers, navbars, login pages, and more. Copy the code or install with the shadcn CLI.
 - [Free React Landing Page Components](https://ui.watermelon.sh/free/landing-page-components): Build a landing page in React with free components: hero, features, pricing, testimonials, FAQ, CTA, and footer sections styled with Tailwind CSS.
-- [React Component MCP Server](https://ui.watermelon.sh/guides/react-component-mcp-server): Connect a free React component MCP server to Claude, Cursor, or Codex. Watermelon MCP lets agents search 850+ components and pull installable source.
+- [React Component MCP Server](https://ui.watermelon.sh/guides/react-component-mcp-server): Connect a free React component MCP server to Claude, Cursor, or Codex. Watermelon MCP lets agents search 800+ components and pull installable source.
 - [Best Free shadcn/ui Alternatives in 2026](https://ui.watermelon.sh/guides/best-free-shadcn-alternatives): The best free shadcn/ui alternatives in 2026, compared honestly: Watermelon UI, Aceternity UI, Magic UI, daisyUI, HeroUI, Flowbite, and more.
 - [Copy-Paste Components vs an Installed Component Library](https://ui.watermelon.sh/guides/copy-paste-vs-component-library): Copy-paste React components vs an npm component library: ownership, upgrades, bundle size, and customization compared, with guidance on when to use each.
 - [The Best UI Library for Vibe Coding](https://ui.watermelon.sh/guides/ui-components-for-vibe-coding): The best UI library for vibe coding: use copy-paste React components with an MCP server so Cursor, v0, Claude, and Codex build from real source, not guesses.
