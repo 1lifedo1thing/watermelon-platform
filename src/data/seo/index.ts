@@ -7,7 +7,7 @@ import { seoKindMeta, seoPagePath, type CatalogListKind, type SeoPage, type SeoP
 
 export * from './types';
 
-export const SITE_URL = 'https://ui.watermelon.sh';
+export { SITE_URL } from './site';
 
 export const seoPages: SeoPage[] = [
   ...alternativePages,
