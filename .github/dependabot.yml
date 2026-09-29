@@ -5,6 +5,12 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    ignore:
+      # @vercel/og 1.x (1.0.0 to 1.0.3) ships without hb.wasm, which breaks
+      # scripts/generate-og-images.tsx and therefore the build. Re-check
+      # before lifting this.
+      - dependency-name: "@vercel/og"
+        versions: [">=1.0.0"]
     groups:
       frontend-dependencies:
         patterns:
