@@ -6,6 +6,7 @@ import { ComponentRenderCard } from '@/components/registry/component-render-card
 import { BlockImageCard } from '@/components/registry/block-image-card';
 import { SEOHead } from '@/components/seo-head';
 import { CatalogPageHeader } from '@/components/layout/catalog-page-header';
+import { blockCategorySeo } from '@/data/seo/catalog-meta';
 import { getBlockPreviewImageUrl } from '@/data/block-preview-images';
 import { LayoutGridIcon, RectangleHorizontalIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -90,6 +91,7 @@ export default function BlockCategoryPage() {
   const label =
     meta?.label ?? category.charAt(0).toUpperCase() + category.slice(1);
   const description = meta?.description ?? `${label} block variants.`;
+  const seo = blockCategorySeo(category, allBlocks.length);
 
   const visibleBlocks = useMemo(
     () => allBlocks.slice(0, visibleCount),
@@ -175,15 +177,15 @@ export default function BlockCategoryPage() {
   return (
     <>
       <SEOHead
-        title={`${label} - UI Blocks`}
-        description={description}
+        title={seo?.title ?? `${label} - UI Blocks`}
+        description={seo?.description ?? description}
         category="UI Blocks"
       />
 
       <div className="space-y-12 pb-10" ref={containerRef}>
         <section id={`blocks-${category}`} className="space-y-6">
           <CatalogPageHeader
-            title={label}
+            title={seo?.h1 ?? label}
             description={
               <>
                 {description}

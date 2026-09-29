@@ -1,0 +1,200 @@
+import { describe, expect, it } from 'bun:test';
+import {
+  seoIndexPages,
+  seoPagePath,
+  seoPages,
+  seoPagesByPath,
+  seoPagesOfKind,
+} from '../src/data/seo';
+import { inlineHrefs } from '../src/data/seo/inline';
+import { seoPageSchemas } from '../src/data/seo/schema';
+import { knownRoutes } from './routes.generated';
+import { resolveRouteSeo } from './seo-html';
+import siteWorker from './site';
+
+const shell = `<!doctype html><html><head>
+<link rel="canonical" href="https://ui.watermelon.sh/" />
+<title>Watermelon UI — Premium React Components, Dashboards & Blocks</title>
+<meta name="description" content="Base description" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ui.watermelon.sh/" />
+<meta
+  property="og:title"
+  content="Base title"
+/>
+<meta name="twitter:title" content="Base title" />
+</head><body><div id="agent-preload"></div></body></html>`;
+
+const mockEnv = {
+  ASSETS: {
+    fetch() {
+      return Promise.resolve(new Response(shell, { headers: { 'Content-Type': 'text/html' } }));
+    },
+  },
+};
+
+const knownRouteSet = new Set<string>(knownRoutes);
+
+function allText(page: (typeof seoPages)[number]) {
+  return [
+    page.title,
+    page.description,
+    page.h1,
+    ...page.intro,
+    ...page.sections.flatMap((s) => [
+      s.heading,
+      ...(s.paragraphs ?? []),
+      ...(s.bullets ?? []),
+      ...(s.table ? [...s.table.columns, ...s.table.rows.flat()] : []),
+    ]),
+    ...(page.faqs ?? []).flatMap((f) => [f.question, f.answer]),
+  ];
+}
+
+describe('programmatic SEO content', () => {
+  it('has unique titles, descriptions, H1s, and paths', () => {
+    for (const key of ['title', 'description', 'h1'] as const) {
+      const values = seoPages.map((p) => p[key].toLowerCase());
+      expect(new Set(values).size).toBe(values.length);
+    }
+    const paths = seoPages.map(seoPagePath);
+    expect(new Set(paths).size).toBe(paths.length);
+  });
+
+  it('keeps meta descriptions between 120 and 170 characters', () => {
+    for (const page of [...seoPages, ...seoIndexPages]) {
+      expect({ path: 'path' in page ? page.path : seoPagePath(page), length: page.description.length }).toEqual({
+        path: 'path' in page ? page.path : seoPagePath(page),
+        length: expect.any(Number),
+      });
+      expect(page.description.length).toBeGreaterThanOrEqual(120);
+      expect(page.description.length).toBeLessThanOrEqual(170);
+    }
+  });
+
+  it('keeps titles short enough to show in search results', () => {
+    for (const page of seoPages) {
+      expect(`${page.title} | Watermelon UI`.length).toBeLessThanOrEqual(80);
+    }
+  });
+
+  it('never uses em dashes in page copy', () => {
+    for (const page of seoPages) {
+      for (const text of allText(page)) expect(text).not.toContain('—');
+    }
+  });
+
+  it('only links to routes that exist', () => {
+    for (const page of seoPages) {
+      const hrefs = allText(page).flatMap(inlineHrefs).filter((h) => h.startsWith('/'));
+      for (const href of [...hrefs, ...page.related]) {
+        expect({ page: seoPagePath(page), href, exists: knownRouteSet.has(href) }).toEqual({
+          page: seoPagePath(page),
+          href,
+          exists: true,
+        });
+      }
+    }
+  });
+
+  it('has no orphan pages: every page is on a hub and linked from a sibling', () => {
+    const hubKinds = new Set(seoIndexPages.flatMap((i) => i.groups.map((g) => g.kind)));
+    const inbound = new Map<string, number>();
+    for (const page of seoPages) {
+      const targets = [...page.related, ...allText(page).flatMap(inlineHrefs)];
+      for (const target of new Set(targets)) inbound.set(target, (inbound.get(target) ?? 0) + 1);
+    }
+    for (const page of seoPages) {
+      expect(hubKinds.has(page.kind)).toBe(true);
+      expect(seoPagesOfKind(page.kind)).toContain(page);
+      expect({ page: seoPagePath(page), inbound: (inbound.get(seoPagePath(page)) ?? 0) > 0 }).toEqual({
+        page: seoPagePath(page),
+        inbound: true,
+      });
+    }
+  });
+
+  it('links each page to 3 to 6 related pages', () => {
+    for (const page of seoPages) {
+      expect(page.related.length).toBeGreaterThanOrEqual(3);
+      expect(page.related.length).toBeLessThanOrEqual(6);
+      for (const path of page.related) expect(seoPagesByPath[path]).toBeDefined();
+    }
+  });
+
+  it('builds serializable JSON-LD with breadcrumbs and no ratings', () => {
+    for (const page of seoPages) {
+      const json = JSON.stringify(seoPageSchemas(page));
+      const parsed = JSON.parse(json) as { '@type': string }[];
+      expect(parsed[0]['@type']).toBe('BreadcrumbList');
+      expect(json).not.toContain('AggregateRating');
+      expect(json).not.toContain('"Review"');
+      if (page.faqs?.length) expect(parsed.some((s) => s['@type'] === 'FAQPage')).toBe(true);
+    }
+  });
+});
+
+describe('route SEO in the Worker', () => {
+  it('resolves metadata for every sitemap route except hand-written pages', () => {
+    const handWritten = new Set(['/', '/about', '/contact', '/privacy', '/terms', '/developers', '/developers/auth', '/developers/mcp', '/developers/status']);
+    const missing = knownRoutes.filter((route) => !handWritten.has(route) && !resolveRouteSeo(route));
+    expect(missing).toEqual([]);
+  });
+
+  it('gives every route a unique title', () => {
+    const titles = new Map<string, string>();
+    const duplicates: string[] = [];
+    for (const route of knownRoutes) {
+      const seo = resolveRouteSeo(route);
+      if (!seo) continue;
+      const existing = titles.get(seo.title);
+      if (existing) duplicates.push(`${existing} and ${route}: ${seo.title}`);
+      titles.set(seo.title, route);
+    }
+    expect(duplicates).toEqual([]);
+  });
+
+  it('serves SEO pages with their own title, canonical, JSON-LD, and body', async () => {
+    const response = await siteWorker.fetch(
+      new Request('https://ui.watermelon.sh/alternatives/shadcn-ui'),
+      mockEnv,
+    );
+    expect(response.status).toBe(200);
+    const html = await response.text();
+    const page = seoPagesByPath['/alternatives/shadcn-ui'];
+    expect(html).toContain(`<title>${page.title} | Watermelon UI</title>`);
+    expect(html).toContain('<link rel="canonical" href="https://ui.watermelon.sh/alternatives/shadcn-ui" />');
+    expect(html).toContain('<meta property="og:url" content="https://ui.watermelon.sh/alternatives/shadcn-ui" />');
+    expect(html).toContain('<meta property="og:type" content="article" />');
+    expect(html).not.toContain('content="Base title"');
+    expect(html).toContain('application/ld+json');
+    expect(html).toContain(`<h1>${page.h1}</h1>`);
+    expect(html).toContain('href="/free/react-components"');
+  });
+
+  it('fixes the canonical on existing catalog pages', async () => {
+    const response = await siteWorker.fetch(
+      new Request('https://ui.watermelon.sh/components/accordion'),
+      mockEnv,
+    );
+    const html = await response.text();
+    expect(html).toContain('<link rel="canonical" href="https://ui.watermelon.sh/components/accordion" />');
+    expect(html).toContain('<title>React Accordion Component, Free shadcn Accordion | Watermelon UI</title>');
+    expect(html).not.toContain('href="https://ui.watermelon.sh/" />');
+  });
+
+  it('keeps hand-written agent pages but gives them their own canonical', async () => {
+    const response = await siteWorker.fetch(new Request('https://ui.watermelon.sh/about'), mockEnv);
+    const html = await response.text();
+    expect(html).toContain('<title>About Watermelon UI</title>');
+    expect(html).toContain('<link rel="canonical" href="https://ui.watermelon.sh/about" />');
+  });
+
+  it('serves the SEO hub pages', async () => {
+    for (const index of seoIndexPages) {
+      const response = await siteWorker.fetch(new Request(`https://ui.watermelon.sh${index.path}`), mockEnv);
+      expect(response.status).toBe(200);
+      expect(await response.text()).toContain(`<h1>${index.h1}</h1>`);
+    }
+  });
+});
