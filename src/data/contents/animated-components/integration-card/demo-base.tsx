@@ -1,6 +1,7 @@
 "use client";
+import { FaSlack } from 'react-icons/fa';
 import { IntegrationsCard } from './base';
-import { SiSlack, SiDiscord, SiGithub } from 'react-icons/si';
+import { SiDiscord, SiGithub } from 'react-icons/si';
 
 const MOCK_INTEGRATIONS = [
     {
@@ -12,7 +13,7 @@ const MOCK_INTEGRATIONS = [
         triggers: 12,
         actions: 8,
         available: true,
-        icon: <SiSlack className="text-[#E01E5A]" size={20} />
+        icon: <FaSlack className="text-[#E01E5A]" size={20} />
     },
     {
         id: '2',

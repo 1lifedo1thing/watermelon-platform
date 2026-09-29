@@ -238,22 +238,22 @@ async function injectAgentHtml(env: Env, pathname: string) {
     .join('');
 
   const injected = html
-    .replace(/<title>[^<]*<\/title>/, `<title>${escapeText(title)}</title>`)
+    .replace(/<title([^>]*)>[^<]*<\/title>/, `<title$1>${escapeText(title)}</title>`)
     .replace(
-      /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
-      `<meta name="description" content="${escapeAttribute(description)}" />`,
+      /(<meta\s+name="description"\s+content=)"[^"]*"/,
+      `$1"${escapeAttribute(description)}"`,
     )
     .replace(
-      /<link rel="canonical" href="[^"]*" \/>/,
-      `<link rel="canonical" href="${escapeAttribute(canonical)}" />`,
+      /(<link rel="canonical" href=)"[^"]*"/,
+      `$1"${escapeAttribute(canonical)}"`,
     )
     .replace(
-      /<meta property="og:url" content="[^"]*" \/>/,
-      `<meta property="og:url" content="${escapeAttribute(canonical)}" />`,
+      /(<meta property="og:url" content=)"[^"]*"/,
+      `$1"${escapeAttribute(canonical)}"`,
     )
     .replace(
-      /<meta property="og:type" content="[^"]*" \/>/,
-      `<meta property="og:type" content="${routeSeo?.ogType ?? 'website'}" />`,
+      /(<meta property="og:type" content=)"[^"]*"/,
+      `$1"${routeSeo?.ogType ?? 'website'}"`,
     )
     .replace(
       /(<meta\s+(?:property="og:title"|name="twitter:title")\s+content=)"[^"]*"/g,

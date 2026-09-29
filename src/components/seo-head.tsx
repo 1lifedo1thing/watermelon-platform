@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { socialImageFor } from '@/data/seo/og';
 
@@ -37,6 +38,14 @@ export function SEOHead({
   const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
   const shareImage = socialImageFor(pathname, image);
   const absoluteImage = shareImage.startsWith('http') ? shareImage : `${siteUrl}${shareImage}`;
+
+  // index.html ships static head tags (marked data-seo) that the Worker fills
+  // in per route for crawlers that skip JavaScript. Under React 19,
+  // react-helmet-async renders its own tags without replacing those, so drop
+  // the static copies once this page's tags are in place.
+  useEffect(() => {
+    document.head.querySelectorAll('[data-seo]').forEach((element) => element.remove());
+  }, []);
 
   return (
     <Helmet>
