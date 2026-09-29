@@ -7,6 +7,18 @@ import { trackEvent } from "@/lib/analytics";
 interface RegistryCardProps {
   item: RegistryItem;
   onClick: (item: RegistryItem) => void;
+  /**
+   * Load the video right away instead of waiting for the card to scroll near
+   * the viewport. Ignored on touch devices, where there is no hover to play
+   * the video, and when the visitor has Data Saver on.
+   */
+  preloadVideo?: boolean;
+}
+
+function canPreloadVideo() {
+  if (typeof window === "undefined") return false;
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  return window.matchMedia("(hover: hover)").matches && !connection?.saveData;
 }
 // const getImageSrcSet = (src: string) => {
 //   if (!src.startsWith("http")) return undefined;
@@ -27,12 +39,12 @@ interface RegistryCardProps {
 //   return [mk(320), mk(480), mk(640), mk(960), mk(1280)].join(", ");
 // };
 
-export const RegistryCard = memo(function RegistryCard({ item, onClick }: RegistryCardProps) {
+export const RegistryCard = memo(function RegistryCard({ item, onClick, preloadVideo = false }: RegistryCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   // Only fetch the preview video once the card is near the viewport, so a page
   // of cards does not download every video at once. The poster image shows
   // instantly in the meantime.
-  const [isNearViewport, setIsNearViewport] = useState(false);
+  const [isNearViewport, setIsNearViewport] = useState(() => preloadVideo && canPreloadVideo());
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 

@@ -105,7 +105,7 @@ export default function AnimatedComponentsPage() {
         description="High-quality animated React components. Browse by category or explore individual components."
       />
 
-      <div className="flex w-full pb-10 px-4 md:px-6 lg:px-8 mt-4">
+      <div className="flex w-full flex-col gap-12 pb-10 px-4 md:px-6 lg:px-8 mt-4">
         <section id="animated-components" className="flex flex-col w-full gap-6 md:gap-12">
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -165,7 +165,7 @@ export default function AnimatedComponentsPage() {
           </div>
         </section>
 
-        <RelatedResources kind="animated-components" className="mx-4 md:mx-6 lg:mx-8" />
+        <RelatedResources kind="animated-components" />
       </div>
     </>
   );
