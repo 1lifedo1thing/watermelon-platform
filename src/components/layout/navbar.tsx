@@ -8,6 +8,7 @@ import { CommandPalette } from '@/components/layout/command-palette';
 import { animatedComponentMetadata } from '@/data/animated-components-metadata';
 import { dashboardMetadata } from '@/data/dashboard-metadata';
 import { blockMetadata, blockCategories } from '@/data/block-metadata';
+import { uiCategories } from '@/data/components-registry';
 import { motion } from 'motion/react';
 import { GlobalCssInput } from './global-css-input';
 
@@ -78,8 +79,10 @@ export const Navbar = () => {
     // New Component category page / UI Base Components: /components/:category
     if (path.startsWith('/components/')) {
       const category = params.category || path.split('/').pop() || '';
-      const title = category.charAt(0).toUpperCase() + category.slice(1);
-      return [{ label: 'Components' }, { label: title }];
+      const catMeta = uiCategories.find((c) => c.slug === category);
+      const title =
+        catMeta?.label ?? category.charAt(0).toUpperCase() + category.slice(1);
+      return [{ label: 'Components', href: '/components' }, { label: title }];
     }
 
     // Dashboard detail page: /dashboard/:slug
