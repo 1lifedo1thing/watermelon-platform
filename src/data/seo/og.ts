@@ -13,11 +13,13 @@ export function ogImageFileName(pathname: string) {
 }
 
 /**
- * The share image for a page: its own preview image when social networks can
- * show it (not AVIF), otherwise the route's card or the default card.
+ * The share image for a page: always our own 1200x630 PNG card (or the
+ * default card). Catalog preview images are not used: many 404, and the rest
+ * vary in size and format (webp, 3600px PNGs), which X, LinkedIn, and
+ * WhatsApp render badly or not at all. `_image` is accepted for callers that
+ * still pass one, and ignored.
  */
-export function socialImageFor(pathname: string, image?: string | null) {
-  if (image && !/\.avif(\?|$)/i.test(image)) return image;
+export function socialImageFor(pathname: string, _image?: string | null) {
   return ogImageForPath(pathname);
 }
 
