@@ -97,6 +97,9 @@ const routes: RouteEntry[] = [...staticRoutes];
 // needs an exact allowlist so embedded previews are not mistaken for 404s.
 const internalRoutes: string[] = [];
 // Lightweight title + link lists used by the SEO hub pages (React and Worker).
+// Block descriptions reused by more than one block are category boilerplate
+// (sometimes the wrong category's), so SEO metadata replaces them.
+const blockDescriptions = new Map<string, string[]>();
 const catalogLinks: Record<string, CatalogLink[]> = {
   components: [],
   'animated-components': [],
@@ -167,11 +170,13 @@ const catalogLinks: Record<string, CatalogLink[]> = {
 {
   const blockCategories = new Set<string>();
   for (const file of findMdxFiles(path.join(CONTENTS_DIR, 'blocks'))) {
-    const { slug, title, category } = matter(
+    const { slug, title, category, description } = matter(
       fs.readFileSync(file, 'utf-8'),
     ).data;
     if (!slug || !title) continue;
     routes.push({ path: `/block/${slug}`, lastmod: fileDate(file) });
+    const text = String(description ?? '').trim();
+    blockDescriptions.set(text, [...(blockDescriptions.get(text) ?? []), String(slug)]);
     catalogLinks.blocks.push({
       title: String(title),
       href: `/block/${slug}`,
@@ -280,6 +285,10 @@ export const internalRoutes = ${JSON.stringify(uniqueInternalRoutes, null, 2)} a
 );
 
 // ── Catalog link lists for SEO hub pages ─────────────────────────────────────
+const sharedBlockDescriptionSlugs = [...blockDescriptions.entries()]
+  .filter(([text, slugs]) => !text || slugs.length > 1)
+  .flatMap(([, slugs]) => slugs)
+  .sort();
 for (const list of Object.values(catalogLinks)) {
   list.sort((a, b) => a.title.localeCompare(b.title));
 }
@@ -293,6 +302,9 @@ import type { CatalogListKind } from './types';
 export type CatalogLink = { title: string; href: string; category?: string };
 
 export const catalogLinks: Record<CatalogListKind, CatalogLink[]> = ${JSON.stringify(catalogLinks, null, 2)};
+
+/** Block slugs whose description is shared with other blocks or empty. */
+export const sharedBlockDescriptionSlugs: string[] = ${JSON.stringify(sharedBlockDescriptionSlugs, null, 2)};
 `,
 );
 

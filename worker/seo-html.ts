@@ -18,9 +18,16 @@ import {
   type SeoPage,
   type SeoSection,
 } from '../src/data/seo';
-import { blockCategorySeo, componentCategorySeo } from '../src/data/seo/catalog-meta';
-import { catalogLinks } from '../src/data/seo/catalog-links.generated';
+import {
+  animatedDetailSeo,
+  blockCategorySeo,
+  blockDetailSeo,
+  componentCategorySeo,
+  dashboardDetailSeo,
+} from '../src/data/seo/catalog-meta';
+import { catalogLinks, sharedBlockDescriptionSlugs } from '../src/data/seo/catalog-links.generated';
 import { parseInline } from '../src/data/seo/inline';
+import { socialImageFor } from '../src/data/seo/og';
 import { breadcrumbSchema, seoIndexSchemas, seoPageSchemas } from '../src/data/seo/schema';
 
 export interface RouteSeo {
@@ -29,12 +36,19 @@ export interface RouteSeo {
   description: string;
   canonical: string;
   ogType: 'website' | 'article';
+  /** Absolute share image URL (PNG card or the page's own preview). */
+  ogImage: string;
   schemas: object[];
   /** Crawlable HTML placed in #agent-preload. Null keeps the default content. */
   bodyHtml: string | null;
 }
 
 const SUFFIX = ' | Watermelon UI';
+
+function shareImage(pathname: string, image?: string | null) {
+  const src = socialImageFor(pathname, image);
+  return src.startsWith('http') ? src : `${SITE_URL}${src}`;
+}
 
 function fullTitle(title: string) {
   return title.includes('Watermelon UI') ? title : `${title}${SUFFIX}`;
@@ -123,6 +137,7 @@ function seoRoute(pathname: string): RouteSeo | null {
       description: index.description,
       canonical: `${SITE_URL}${index.path}`,
       ogType: 'website',
+      ogImage: shareImage(index.path),
       schemas: seoIndexSchemas(index, pages),
       bodyHtml: [
         breadcrumbHtml([
@@ -148,6 +163,7 @@ function seoRoute(pathname: string): RouteSeo | null {
     description: page.description,
     canonical: `${SITE_URL}${seoPagePath(page)}`,
     ogType: 'article',
+    ogImage: shareImage(seoPagePath(page)),
     schemas: seoPageSchemas(page),
     bodyHtml: seoPageHtml(page),
   };
@@ -189,6 +205,7 @@ function catalogPage(options: {
   crumbs: { name: string; path: string }[];
   entries?: { title: string; href: string }[];
   install?: string;
+  image?: string | null;
 }): RouteSeo {
   const hub = hubFor[options.kind];
   const body = [
@@ -204,6 +221,7 @@ function catalogPage(options: {
     description: options.description,
     canonical: `${SITE_URL}${options.pathname}`,
     ogType: 'website',
+    ogImage: shareImage(options.pathname, options.image),
     schemas: [breadcrumbSchema(options.crumbs)],
     bodyHtml: body.join('\n'),
   };
@@ -286,15 +304,30 @@ function catalogRoute(pathname: string): RouteSeo | null {
     if (match.kind === 'blocks' && entry.category) {
       crumbs.push({ name: titleCase(entry.category), path: `/blocks/${entry.category.toLowerCase()}` });
     }
-    crumbs.push({ name: entry.title, path: pathname });
+    const seo =
+      match.kind === 'blocks'
+        ? blockDetailSeo({
+            slug: entry.slug,
+            title: entry.title,
+            category: entry.category ?? '',
+            description: entry.description,
+            sharedDescription: sharedBlockDescriptionSlugs.includes(entry.slug),
+          })
+        : match.kind === 'animated-components'
+          ? { ...animatedDetailSeo(entry), h1: entry.title, description: entry.description }
+          : match.kind === 'dashboards'
+            ? { ...dashboardDetailSeo(entry), h1: entry.title, description: entry.description }
+            : { title: `${entry.title}${match.suffix}`, h1: entry.title, description: entry.description };
+    crumbs.push({ name: seo.h1, path: pathname });
     return catalogPage({
       pathname,
       kind: match.kind,
-      title: `${entry.title}${match.suffix}`,
-      h1: entry.title,
-      description: entry.description || `${entry.title} for React and Tailwind CSS.`,
+      title: seo.title,
+      h1: seo.h1,
+      description: seo.description || `${entry.title} for React and Tailwind CSS.`,
       crumbs,
       install: entry.installCommand,
+      image: entry.image,
     });
   }
 
@@ -374,6 +407,7 @@ function staticRoute(pathname: string): RouteSeo | null {
       description: page.description,
       canonical: `${SITE_URL}${pathname}`,
       ogType: 'website',
+      ogImage: shareImage(pathname),
       schemas: [breadcrumbSchema(crumbs)],
       bodyHtml: null,
     };

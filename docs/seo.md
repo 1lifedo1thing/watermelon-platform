@@ -44,6 +44,28 @@ and `/blocks/:category`, such as "React Accordion Component, Free shadcn Accordi
 They follow what people actually search, based on Google autocomplete
 data. "shadcn" and "free" are strong modifiers.
 
+## Detail pages
+
+`blockDetailSeo`, `animatedDetailSeo`, and `dashboardDetailSeo` in
+`catalog-meta.ts` title every block, animated component, and dashboard page.
+Blocks whose description is shared with other blocks (category boilerplate)
+get a specific generated description instead; the list of those slugs is
+generated into `catalog-links.generated.ts`.
+
+## Share images
+
+`bun run generate:og` (part of the build) renders 1200x630 PNG cards into
+`public/og` (git-ignored) for SEO pages, hubs, and category and listing pages.
+Detail pages use their own preview image. AVIF images are never used for
+sharing because X, LinkedIn, and Facebook do not show them.
+
+## IndexNow
+
+After each push deploy, `scripts/indexnow.ts` tells IndexNow (Bing, which also
+feeds ChatGPT search) about URLs whose sitemap `<lastmod>` is from the last two
+days. The key file lives in `public/`. Use `--dry-run` to preview. The deploy
+checks out full git history so `<lastmod>` reflects each file's real last change.
+
 ## Pruning
 
 About half of programmatic pages never get traffic. After 4 to 6 weeks, export

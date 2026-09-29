@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { dashboards } from '@/data/dashboards';
 import { SEOHead } from '@/components/seo-head';
 import { DashboardCard } from '@/components/registry/dashboard-card';
+import { RelatedResources } from '@/components/seo/related-resources';
 import { CatalogPageHeader } from '@/components/layout/catalog-page-header';
 
 const ITEMS_PER_PAGE = 18;
@@ -71,6 +72,8 @@ export default function DashboardsPage() {
             </div>
           )}
         </section>
+
+        <RelatedResources kind="dashboards" className="mx-4 md:mx-6 lg:mx-8" />
       </div>
     </>
   );

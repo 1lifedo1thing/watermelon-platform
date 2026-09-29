@@ -8,7 +8,7 @@ export const siteConfig = {
   description:
     'A collection of high-quality React components, dashboards, and UI blocks. Copy and paste production-ready UI with ease.',
   url: 'https://ui.watermelon.sh',
-  ogImage: 'https://ui.watermelon.sh/og-image.avif',
+  ogImage: 'https://ui.watermelon.sh/og/default.png',
   twitterHandle: '@watermelonui',
 };
 

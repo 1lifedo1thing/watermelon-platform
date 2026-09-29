@@ -2,7 +2,8 @@ import { alternativePages } from './pages/alternatives';
 import { comparePages } from './pages/compare';
 import { freePages } from './pages/free';
 import { guidePages } from './pages/guides';
-import { seoKindMeta, seoPagePath, type SeoPage, type SeoPageKind } from './types';
+import { moreComparePages, moreGuidePages } from './pages/more';
+import { seoKindMeta, seoPagePath, type CatalogListKind, type SeoPage, type SeoPageKind } from './types';
 
 export * from './types';
 
@@ -11,8 +12,10 @@ export const SITE_URL = 'https://ui.watermelon.sh';
 export const seoPages: SeoPage[] = [
   ...alternativePages,
   ...comparePages,
+  ...moreComparePages,
   ...freePages,
   ...guidePages,
+  ...moreGuidePages,
 ];
 
 export const seoPagesByPath: Record<string, SeoPage> = Object.fromEntries(
@@ -81,6 +84,23 @@ export function seoBreadcrumbs(page: SeoPage) {
     { name: index.h1, path: meta.indexPath },
     { name: page.h1, path: seoPagePath(page) },
   ];
+}
+
+/**
+ * SEO pages to link from each catalog section, so the programmatic pages get
+ * visible internal links from the catalog (not only from crawler HTML).
+ */
+const relatedByCatalogKind: Record<CatalogListKind, string[]> = {
+  components: ['/free/react-components', '/alternatives/shadcn-ui', '/guides/copy-paste-vs-component-library', '/guides/best-free-shadcn-alternatives'],
+  'animated-components': ['/free/animated-react-components', '/alternatives/aceternity-ui', '/alternatives/magic-ui', '/guides/add-animated-components-to-react'],
+  blocks: ['/free/tailwind-blocks', '/free/landing-page-components', '/alternatives/tailwind-ui', '/guides/is-tailwind-ui-free'],
+  dashboards: ['/free/react-dashboard-templates', '/guides/build-react-dashboard-fast', '/alternatives/untitled-ui'],
+  templates: ['/free/landing-page-components', '/free/tailwind-blocks', '/alternatives/tailwind-ui'],
+  showcases: ['/free/landing-page-components', '/free/tailwind-blocks', '/guides/ui-components-for-vibe-coding'],
+};
+
+export function relatedSeoPagesFor(kind: CatalogListKind): SeoPage[] {
+  return relatedByCatalogKind[kind].map((path) => seoPagesByPath[path]).filter(Boolean);
 }
 
 export { seoPagePath };

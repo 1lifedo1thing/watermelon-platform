@@ -30,6 +30,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Full history so the sitemap's <lastmod> comes from each file's real
+          # last commit, not the shallow clone's single commit.
+          fetch-depth: 0
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -47,3 +51,10 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: bunx wrangler deploy --config wrangler.toml --name watermelon-platform
+
+      # Tell Bing and other IndexNow engines about changed URLs. Only on code
+      # pushes, not the daily registry redeploy, and never fail the deploy.
+      - name: Notify IndexNow
+        if: github.event_name == 'push'
+        continue-on-error: true
+        run: bun run scripts/indexnow.ts

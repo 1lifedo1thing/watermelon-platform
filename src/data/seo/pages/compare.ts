@@ -120,7 +120,7 @@ export const comparePages: SeoPage[] = [
         ],
       },
     ],
-    related: ['/guides/copy-paste-vs-component-library', '/compare/shadcn-vs-mantine', '/alternatives/shadcn-ui', '/free/react-components'],
+    related: ['/guides/copy-paste-vs-component-library', '/compare/shadcn-vs-mantine', '/compare/shadcn-vs-ant-design', '/compare/shadcn-vs-bootstrap', '/free/react-components'],
     updated,
   },
   {

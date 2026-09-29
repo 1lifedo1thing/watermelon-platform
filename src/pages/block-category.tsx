@@ -7,6 +7,7 @@ import { BlockImageCard } from '@/components/registry/block-image-card';
 import { SEOHead } from '@/components/seo-head';
 import { CatalogPageHeader } from '@/components/layout/catalog-page-header';
 import { blockCategorySeo } from '@/data/seo/catalog-meta';
+import { RelatedResources } from '@/components/seo/related-resources';
 import { getBlockPreviewImageUrl } from '@/data/block-preview-images';
 import { LayoutGridIcon, RectangleHorizontalIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -256,6 +257,8 @@ export default function BlockCategoryPage() {
             </div>
           )}
         </section>
+
+        <RelatedResources kind="blocks" className="mx-4 md:mx-6 lg:mx-8" />
       </div>
     </>
   );
