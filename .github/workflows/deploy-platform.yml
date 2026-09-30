@@ -22,6 +22,13 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch:
 
+# Merging several PRs in a row starts several deploys at once, and the last
+# one to finish wins, even if it deploys an older commit (seen 2026-09-30:
+# #227's build overwrote #226 and #220). Run deploys one at a time, in order.
+concurrency:
+  group: deploy-platform
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
