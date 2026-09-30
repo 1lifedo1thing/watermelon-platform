@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "sh.watermelon/ui",
+  "title": "Watermelon UI",
+  "description": "Search free React, Tailwind, and shadcn components, blocks, and dashboards; get installable source.",
+  "version": "2.0.0",
+  "websiteUrl": "https://ui.watermelon.sh/developers/mcp",
+  "repository": {
+    "url": "https://github.com/WatermelonCorp/watermelon-platform",
+    "source": "github",
+    "subfolder": "mcp"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.watermelon.sh/mcp"
+    }
+  ]
+}

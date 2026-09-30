@@ -101,6 +101,30 @@ describe('mcp worker', () => {
     }
   });
 
+  it('gives every tool a title and read-only annotations for MCP directories', async () => {
+    const response = await mcpWorker.fetch(
+      new Request('https://mcp.watermelon.sh/mcp', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json, text/event-stream',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ jsonrpc: '2.0', id: 3, method: 'tools/list' }),
+      }),
+    );
+    const body = await response.text();
+    const json = body.includes('data:') ? body.split('\n').find((line) => line.startsWith('data:'))!.slice(5) : body;
+    const tools = JSON.parse(json).result.tools as Array<{ name: string; title?: string; annotations?: Record<string, boolean> }>;
+    expect(tools.length).toBeGreaterThanOrEqual(8);
+    for (const tool of tools) {
+      expect({ name: tool.name, title: Boolean(tool.title) }).toEqual({ name: tool.name, title: true });
+      expect({ name: tool.name, annotations: tool.annotations }).toEqual({
+        name: tool.name,
+        annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+      });
+    }
+  });
+
   it('records aggregate MCP telemetry without storing client identifiers', async () => {
     const points: Array<{ blobs: string[]; doubles: number[]; indexes: string[] }> = [];
     const response = await mcpWorker.fetch(
