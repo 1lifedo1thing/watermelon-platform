@@ -6,9 +6,9 @@ export interface AgentPage {
 
 export const agentPages: Record<string, AgentPage> = {
   '/': {
-    title: 'Watermelon UI',
+    title: 'Watermelon UI: Free React Components, Blocks & Dashboards',
     description:
-      'Open-source React components, blocks, dashboards, and templates built for the community.',
+      'Free, open-source React components, animations, blocks, and dashboards for Tailwind CSS and shadcn/ui. Copy the code or install with the shadcn CLI.',
     markdown: `# Watermelon UI
 
 Watermelon UI is an open-source React UI platform built for developers who want strong visual references and real implementation paths at the same time. The site brings together animated components, copy-paste blocks, dashboards, and templates so builders can move from inspiration to shipping faster without losing sight of maintainability. Watermelon is free for the community to browse and use, and the project is maintained in public repositories so contributors can improve the experience directly through pull requests.
