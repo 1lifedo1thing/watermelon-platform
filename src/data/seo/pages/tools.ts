@@ -4,9 +4,8 @@ import type { SeoPage } from '../types';
  * Tooling pages: CLI, registry, and MCP. Keyword demand from Google autocomplete
  * ("shadcn cli install", "shadcn registry list", "shadcn mcp claude code").
  *
- * The @watermelon-ui/cli package is not on npm yet. Until it is, the CLI page
- * leads with the shadcn CLI path, which works today. When the package is
- * published, update the "Watermelon CLI" section and llms.txt.
+ * Watermelon installs through the shadcn CLI (there is no separate
+ * Watermelon CLI package), so the CLI page documents that path.
  */
 const updated = '2026-09-29';
 
@@ -61,12 +60,6 @@ export const toolPages: SeoPage[] = [
         heading: 'Let your AI agent install for you',
         paragraphs: [
           'Connect the free [Watermelon MCP server](/guides/react-component-mcp-server) to Claude Code, Cursor, or Codex, and the agent can search the catalog and run these install commands itself.',
-        ],
-      },
-      {
-        heading: 'Watermelon CLI (coming soon)',
-        paragraphs: [
-          'A dedicated `@watermelon-ui/cli` package is on the way. It will shorten installs to `npx @watermelon-ui/cli add <name>` and set up the MCP server for your editor with `npx @watermelon-ui/cli init --client claude`. Until it is published, the shadcn CLI commands above do the same job.',
         ],
       },
     ],

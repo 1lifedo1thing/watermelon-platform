@@ -8,7 +8,7 @@ export const guidePages: SeoPage[] = [
     slug: 'react-component-mcp-server',
     title: 'React Component MCP Server for Claude, Cursor, and Codex',
     description:
-      'Connect a free React component MCP server to Claude, Cursor, or Codex. Watermelon MCP lets agents search 850+ components and pull installable source.',
+      'Connect a free React component MCP server to Claude, Cursor, or Codex. Watermelon MCP lets agents search 800+ components and pull installable source.',
     h1: 'React Component MCP Server',
     primaryKeyword: 'react component mcp server',
     secondaryKeywords: [

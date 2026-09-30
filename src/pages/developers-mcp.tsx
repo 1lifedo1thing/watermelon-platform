@@ -55,7 +55,7 @@ export default function DevelopersMcpPage() {
 
         <DocSection title="Available Tools">
           <DocText>
-            The hosted server searches all 850 public examples. Use{' '}
+            The hosted server searches the full public catalog. Use{' '}
             <code>search</code> for catalog discovery,{' '}
             <code>get_component</code> for source files and install details,{' '}
             <code>get_inspiration</code> to compare visual directions,{' '}
@@ -67,19 +67,22 @@ export default function DevelopersMcpPage() {
 
         <DocSection title="One-Command Setup">
           <DocText>
-            The release-ready installer creates a project-scoped configuration
-            and connects to the free hosted server; no Watermelon account or
-            API key is required. These commands become available when{' '}
-            <code>@watermelon-ui/cli</code> is published to npm. Until then,
-            use the manual setup below.
+            Connect the free hosted server with one command. No Watermelon
+            account or API key is required.
           </DocText>
           <DocCard>
             <pre className="overflow-x-auto text-sm leading-7">
-              <code>{`npx @watermelon-ui/cli init --client codex
-npx @watermelon-ui/cli init --client claude
-npx @watermelon-ui/cli init --client cursor`}</code>
+              <code>{`# Claude Code
+claude mcp add --transport http watermelon https://mcp.watermelon.sh/mcp
+
+# Codex
+codex mcp add watermelon --url https://mcp.watermelon.sh/mcp`}</code>
             </pre>
           </DocCard>
+          <DocText>
+            For Cursor, add <code>{`"watermelon": { "url": "https://mcp.watermelon.sh/mcp" }`}</code>{' '}
+            under <code>mcpServers</code> in <code>.cursor/mcp.json</code>.
+          </DocText>
           <DocText>
             Restart the client after setup, then try: “Search Watermelon for an
             animated pricing section and show me four options.” Follow with
