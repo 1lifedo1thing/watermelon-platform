@@ -3,6 +3,7 @@ import { opsMetadata } from '../src/data/ops.generated';
 import { agentPages, renderMarkdownAsHtml } from './agent-pages';
 import { internalRoutes, knownRoutes } from './routes.generated';
 import { resolveRouteSeo } from './seo-html';
+import { ogImageForPath } from '../src/data/seo/og';
 
 type Env = {
   ASSETS: Fetcher;
@@ -229,7 +230,8 @@ async function injectAgentHtml(env: Env, pathname: string) {
     routeSeo?.canonical ??
     `https://ui.watermelon.sh${pathname === '/' ? '/' : pathname}`;
   const bodyHtml = routeSeo?.bodyHtml ?? renderMarkdownAsHtml(agentPage.markdown);
-  const ogImage = routeSeo?.ogImage ?? 'https://ui.watermelon.sh/og/default.png';
+  // Hand-written agent pages have no RouteSeo; they still get their own card.
+  const ogImage = routeSeo?.ogImage ?? `https://ui.watermelon.sh${ogImageForPath(pathname)}`;
   const schemaTags = (routeSeo?.schemas ?? [])
     .map(
       (schema) =>
@@ -266,6 +268,10 @@ async function injectAgentHtml(env: Env, pathname: string) {
     .replace(
       /(<meta\s+(?:property="og:image"|name="twitter:image")\s+content=)"[^"]*"/g,
       `$1"${escapeAttribute(ogImage)}"`,
+    )
+    .replace(
+      /(<meta\s+(?:property="og:image:alt"|name="twitter:image:alt")\s+content=)"[^"]*"/g,
+      `$1"${escapeAttribute(title)}"`,
     )
     .replace('</head>', `${schemaTags}</head>`)
     .replace(

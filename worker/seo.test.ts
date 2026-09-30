@@ -10,7 +10,7 @@ import {
 import { inlineHrefs } from '../src/data/seo/inline';
 import { seoPageSchemas } from '../src/data/seo/schema';
 import { ogImageRoutes } from '../src/data/seo/og-images.generated';
-import { socialImageFor } from '../src/data/seo/og';
+import { ogImageForPath, socialImageFor } from '../src/data/seo/og';
 import { knownRoutes } from './routes.generated';
 import { resolveRouteSeo } from './seo-html';
 import siteWorker from './site';
@@ -149,8 +149,20 @@ describe('share images', () => {
     for (const index of seoIndexPages) expect(routes.has(index.path)).toBe(true);
   });
 
+  it('gives every sitemap route its own PNG card, never an external preview', () => {
+    const cards = new Set<string>(ogImageRoutes);
+    const missing = knownRoutes.filter((route) => !cards.has(route));
+    expect(missing).toEqual([]);
+    for (const route of knownRoutes) {
+      const image = resolveRouteSeo(route)?.ogImage ?? `https://ui.watermelon.sh${ogImageForPath(route)}`;
+      expect({ route, image }).toEqual({ route, image: expect.stringMatching(/^https:\/\/ui\.watermelon\.sh\/og\/[a-z0-9-]+\.png$/) });
+      expect(image).not.toBe('https://ui.watermelon.sh/og/default.png');
+    }
+  });
+
   it('never uses AVIF, which social networks do not show', () => {
-    expect(socialImageFor('/template/landing-01', 'https://assets.watermelon.sh/templates/landing-01.avif')).toBe('/og/default.png');
+    expect(socialImageFor('/template/landing-01', 'https://assets.watermelon.sh/templates/landing-01.avif')).toBe('/og/template-landing-01.png');
+    expect(socialImageFor('/no-such-page', 'https://example.com/x.avif')).toBe('/og/default.png');
     for (const route of knownRoutes) {
       expect(resolveRouteSeo(route)?.ogImage ?? '').not.toMatch(/\.avif/);
     }
@@ -210,12 +222,12 @@ describe('route SEO in the Worker', () => {
     expect(html).not.toContain('og-image.avif');
   });
 
-  it('uses a block preview image and a specific title on block pages', async () => {
+  it('uses its own PNG card and a specific title on block pages', async () => {
     const response = await siteWorker.fetch(new Request('https://ui.watermelon.sh/block/hero-3'), mockEnv);
     const html = await response.text();
     expect(html).toContain('<title>Hero Section 3: Free React &amp; Tailwind Hero Section Block | Watermelon UI</title>');
     expect(html).not.toContain('Widgets are modular');
-    expect(html).toMatch(/property="og:image" content="https:\/\/assets\.watermelon\.sh\/[^"]+\.webp"/);
+    expect(html).toContain('property="og:image" content="https://ui.watermelon.sh/og/block-hero-3.png"');
   });
 
   it('fixes the canonical on existing catalog pages', async () => {

@@ -11,8 +11,16 @@ import fs from 'fs';
 import path from 'path';
 import { ImageResponse } from '@vercel/og';
 import { seoIndexPages, seoKindMeta, seoPagePath, seoPages } from '../src/data/seo';
-import { animatedCategorySeo, blockCategorySeo, componentCategorySeo } from '../src/data/seo/catalog-meta';
-import { catalogLinks } from '../src/data/seo/catalog-links.generated';
+import {
+  animatedCategorySeo,
+  animatedDetailSeo,
+  blockCategorySeo,
+  blockDetailSeo,
+  componentCategorySeo,
+  dashboardDetailSeo,
+} from '../src/data/seo/catalog-meta';
+import { catalogLinks, sharedBlockDescriptionSlugs } from '../src/data/seo/catalog-links.generated';
+import { catalog } from '../mcp/catalog.generated';
 import { ogImageFileName } from '../src/data/seo/og';
 
 const ROOT = process.cwd();
@@ -87,6 +95,50 @@ const cards: Card[] = [
       };
     },
   ),
+  // Detail pages: every block, animated component, dashboard, and template.
+  ...catalog.blocks.map((entry) => {
+    const seo = blockDetailSeo({
+      slug: entry.slug,
+      title: entry.title,
+      category: entry.category ?? '',
+      description: entry.description,
+      sharedDescription: sharedBlockDescriptionSlugs.includes(entry.slug),
+    });
+    return { path: `/block/${entry.slug}`, eyebrow: 'Free React block', title: seo.h1, description: seo.description };
+  }),
+  ...catalog['animated-components'].map((entry) => ({
+    path: `/animated-components/${entry.slug}`,
+    eyebrow: 'Animated component',
+    title: entry.title,
+    description: entry.description || animatedDetailSeo(entry).title,
+  })),
+  ...catalog.dashboards.map((entry) => ({
+    path: `/dashboard/${entry.slug}`,
+    eyebrow: 'Dashboard template',
+    title: dashboardDetailSeo(entry).title.replace(/: Free React Dashboard Template$/, ''),
+    description: entry.description,
+  })),
+  ...catalog.templates.map((entry) => ({
+    path: `/template/${entry.slug}`,
+    eyebrow: 'Template',
+    title: entry.title,
+    description: entry.description,
+  })),
+  // Docs, developer, and company pages.
+  ...[
+    ['/installation', 'Docs', 'Installation', 'Set up Watermelon UI in Next.js or Vite and add components with the shadcn CLI.'],
+    ['/framework-support', 'Docs', 'Framework Support', 'Watermelon UI works with Next.js, Vite, Remix, and Astro.'],
+    ['/changelog', 'Docs', 'Changelog', 'The latest components, blocks, and improvements in Watermelon UI.'],
+    ['/developers', 'Developers', 'Watermelon UI for Developers', 'Public API, OpenAPI, llms.txt, sitemap, and a hosted MCP server.'],
+    ['/developers/auth', 'Developers', 'Authentication', 'Public, read-only APIs and MCP. No API key required.'],
+    ['/developers/mcp', 'Developers', 'Watermelon MCP Server', 'Connect Claude, Cursor, or Codex to the free hosted MCP server.'],
+    ['/developers/status', 'Developers', 'Status and Integrations', 'Endpoints, build metadata, and connection guidance.'],
+    ['/about', 'About', 'About Watermelon UI', 'Open-source React components, blocks, and dashboards built for the community.'],
+    ['/contact', 'About', 'Contact', 'Support, partnerships, sponsorship, and reports.'],
+    ['/privacy', 'Legal', 'Privacy Policy', 'How Watermelon UI handles analytics and usage data.'],
+    ['/terms', 'Legal', 'Terms of Use', 'Rules for using Watermelon UI and its code examples.'],
+    ['/copyright', 'Legal', 'Copyright and Attribution', 'Watermelon UI copyright, inspiration, and attribution policy.'],
+  ].map(([p, eyebrow, title, description]) => ({ path: p, eyebrow, title, description })),
   ...[
     ['/home', 'Catalog', 'React components, dashboards, and blocks'],
     ['/components', 'Catalog', 'React components'],
