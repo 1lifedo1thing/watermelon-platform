@@ -175,6 +175,15 @@ export function composePagePlan(catalog: CatalogData, prompt: string, requestedS
   });
 }
 
+// Every tool only reads the public Watermelon catalog (and our own registry).
+// MCP directories (Claude, ChatGPT) require explicit hints on each tool.
+const readOnlyAnnotations = {
+  readOnlyHint: true,
+  destructiveHint: false,
+  idempotentHint: true,
+  openWorldHint: false,
+} as const;
+
 export function createCatalogServer(catalog: CatalogData, options: CatalogServerOptions = {}) {
   const fetchRegistry = options.fetchRegistry ?? fetch;
   const server = new McpServer(
@@ -191,6 +200,8 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'search',
     {
+      title: 'Search UI Catalog',
+      annotations: readOnlyAnnotations,
       description: 'Search the complete Watermelon UI catalog across components, animated components, blocks, dashboards, and templates.',
       inputSchema: z.object({
         query: z.string().min(1).describe('Natural-language UI need, such as "animated pricing card".'),
@@ -213,6 +224,8 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'get_component',
     {
+      title: 'Get Component Source',
+      annotations: readOnlyAnnotations,
       description: 'Get a Watermelon entry with preview, dependencies, install command, and source files when an installable registry item is available.',
       inputSchema: z.object({
         slug: z.string().min(1),
@@ -262,6 +275,8 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'get_inspiration',
     {
+      title: 'Get UI Inspiration',
+      annotations: readOnlyAnnotations,
       description: 'Return 3-6 visually relevant Watermelon UI options for a design goal before choosing an implementation.',
       inputSchema: z.object({
         prompt: z.string().min(1),
@@ -283,6 +298,8 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'compose_page',
     {
+      title: 'Compose Page Plan',
+      annotations: readOnlyAnnotations,
       description: 'Create a source-backed page plan by selecting compatible Watermelon blocks for each requested section.',
       inputSchema: z.object({
         prompt: z.string().min(1),
@@ -303,6 +320,8 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'list_categories',
     {
+      title: 'List Categories',
+      annotations: readOnlyAnnotations,
       description: 'List Watermelon UI categories and accurate entry counts, optionally for one catalog kind.',
       inputSchema: z.object({ kind: z.enum(catalogKinds).optional() }),
     },
@@ -319,6 +338,8 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'catalog_summary',
     {
+      title: 'Catalog Summary',
+      annotations: readOnlyAnnotations,
       description: 'Return top-level Watermelon catalog counts across content types.',
       inputSchema: z.object({}),
     },
@@ -334,6 +355,8 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'list_catalog_entries',
     {
+      title: 'List Catalog Entries',
+      annotations: readOnlyAnnotations,
       description: 'Compatibility alias for listing Watermelon entries by kind.',
       inputSchema: z.object({
         kind: z.enum(catalogKinds),
@@ -354,6 +377,8 @@ export function createCatalogServer(catalog: CatalogData, options: CatalogServer
   server.registerTool(
     'get_catalog_entry',
     {
+      title: 'Get Catalog Entry',
+      annotations: readOnlyAnnotations,
       description: 'Compatibility alias for getting one Watermelon entry by kind and slug.',
       inputSchema: z.object({ kind: z.enum(catalogKinds), slug: z.string().min(1) }),
     },
